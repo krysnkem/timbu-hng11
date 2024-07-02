@@ -92,8 +92,6 @@ class AppStateWidgetState extends State<AppStateWidget> {
       if (newData[index].quantity > 1) {
         --newData[index].quantity;
         _appData = _appData.copyWith(cartItems: newData);
-      } else {
-        deleteFromCart(item);
       }
     } else {
       _appData = _appData.copyWith(
@@ -104,7 +102,6 @@ class AppStateWidgetState extends State<AppStateWidget> {
   }
 
   void deleteFromCart(Product item) {
-    print('Called');
     final newData = List<CartItem>.from(_appData.cartItems);
     final index = newData.toList().indexWhere(
           (element) => element.product == item,

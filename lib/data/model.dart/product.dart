@@ -1,4 +1,4 @@
-import 'package:shop_bag_app/screens/products_listing.dart';
+import '../../screens/widgets/product_item.dart';
 
 class Product {
   final String name;
@@ -40,7 +40,7 @@ class Product {
       brand: brand,
       itemTitle: name, // Assuming itemTitle is the same as name
       availableColors: color, // Assuming availableColors is a single color
-      size: size, localAsset: image,
+      size: size, localAsset: image, price: '$price',
     );
   }
 
