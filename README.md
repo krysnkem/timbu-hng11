@@ -16,7 +16,7 @@ This is a simple shopping app built using Flutter, showcasing a list of products
 
 ![Products Screen](showcase/products_screen.png)
 ![Checkout Screen](showcase/checkout_screen.png)
-![Order Successful Screen](showcase/to/order_successful_screen.png)
+![Order Successful Screen](showcase/order_successful_screen.png)
 
 ## Getting Started
 
@@ -36,7 +36,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 2. Navigate to the project directory:
    ```bash
-    cd shop_bag_app
+    cd hng11-shoping-app
    ```
 3. Install the necessary dependencies:
    ```bash
@@ -46,3 +46,12 @@ These instructions will get you a copy of the project up and running on your loc
    ```bash
     flutter run
    ```
+
+
+## Test App
+
+You can try out the app [here](https://appetize.io/app/afktgiaqkfl3d36pachcy6rp2a?device=pixel7&osVersion=13.0) on Appetize.io.
+
+To add to cart
+- Click ![here](showcase/add _to_cart.png)
+- Click on the the bag icon at the second tab
