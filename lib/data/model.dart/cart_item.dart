@@ -14,6 +14,18 @@ class CartItem {
   }
 
   @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is CartItem &&
+        other.product == product &&
+        other.quantity == quantity;
+  }
+
+  @override
+  int get hashCode => product.hashCode ^ quantity.hashCode;
+
+  @override
   String toString() {
     return 'CartIte product$product quantity $quantity';
   }

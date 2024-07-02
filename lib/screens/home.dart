@@ -1,10 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:shop_bag_app/screens/checkout.dart';
 import 'package:shop_bag_app/screens/products_listing.dart';
-import 'package:shop_bag_app/state/app_state.dart';
 import 'package:shop_bag_app/utils/colors.dart';
+import 'package:shop_bag_app/utils/extensions.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log('${AppStateScope.of(context).allProducts}');
     return Scaffold(
       body: PageView(
         controller: _pageController,
@@ -38,8 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
         onDestinationSelected: onChangeDestination,
         indicatorColor: appPrimaryColor,
         selectedIndex: _currentIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
+        destinations: <Widget>[
+          const NavigationDestination(
             selectedIcon: Icon(
               Icons.list,
               color: Colors.white,
@@ -50,15 +47,22 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Products',
           ),
           NavigationDestination(
-            icon: Badge(
-                child: Icon(
-              Icons.shopping_bag,
-            )),
-            selectedIcon: Badge(
-                child: Icon(
-              Icons.shopping_bag,
-              color: Colors.white,
-            )),
+            icon: Badge.count(
+              isLabelVisible: context.getAppState().cartItems.isNotEmpty,
+              count: context.getAppState().cartItems.length,
+              child: const Icon(
+                Icons.shopping_bag,
+              ),
+            ),
+            selectedIcon: Badge.count(
+              isLabelVisible: context.getAppState().cartItems.isNotEmpty,
+              count: context.getAppState().cartItems.length,
+              textColor: Colors.white,
+              child: const Icon(
+                Icons.shopping_bag,
+                color: Colors.white,
+              ),
+            ),
             label: 'My Cart',
           ),
         ],

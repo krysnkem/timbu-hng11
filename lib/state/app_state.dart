@@ -4,15 +4,15 @@ import 'package:shop_bag_app/data/model.dart/cart_item.dart';
 import 'package:shop_bag_app/data/model.dart/product.dart';
 
 class AppState {
-  AppState({required this.allProducts, this.cartItems = const {}});
+  AppState({required this.allProducts, this.cartItems = const []});
 
   final List<Product> allProducts;
 
-  final Set<CartItem> cartItems;
+  final List<CartItem> cartItems;
 
   AppState copyWith({
     List<Product>? allProducts,
-    Set<CartItem>? cartItems,
+    List<CartItem>? cartItems,
   }) {
     return AppState(
       allProducts: allProducts ?? this.allProducts,
@@ -34,19 +34,13 @@ class AppStateScope extends InheritedWidget {
     return context.dependOnInheritedWidgetOfExactType<AppStateScope>()!.data;
   }
 
+  static AppState read(BuildContext context) {
+    return context.findAncestorWidgetOfExactType<AppStateScope>()!.data;
+  }
+
   @override
   bool updateShouldNotify(covariant AppStateScope oldWidget) {
-    if (data.cartItems.length != oldWidget.data.cartItems.length) {
-      return true;
-    }
-
-    for (final item in data.cartItems.indexed) {
-      if (!item.$2.isEqual(oldWidget.data.cartItems.toList()[item.$1])) {
-        true;
-      }
-    }
-
-    return false;
+    return data.cartItems != oldWidget.data.cartItems;
   }
 }
 
@@ -68,30 +62,57 @@ class AppStateWidgetState extends State<AppStateWidget> {
     allProducts: DataSource.getProducts,
   );
 
-  void addToCart(CartItem item) {
-    final newData = Set<CartItem>.from(_appData.cartItems);
-    final index = newData.toList().indexWhere(
-          (element) => element.product.isEqual(item.product),
-        );
-    ++newData.toList()[index].quantity;
+  void addToCart(Product item) {
+    final newData = List<CartItem>.from(_appData.cartItems);
+    if (newData.any(
+      (element) => element.product == item,
+    )) {
+      final index = newData.indexWhere(
+        (element) => element.product == item,
+      );
+      newData[index].quantity = newData[index].quantity + 1;
+    } else {
+      newData.add(CartItem(product: item, quantity: 1));
+    }
+
     _appData = _appData.copyWith(cartItems: newData);
     setState(() {});
   }
 
-  void removeFromCart(CartItem item) {
-    final newData = Set<CartItem>.from(_appData.cartItems);
+  void removeFromCart(Product item) {
+    final newData = List<CartItem>.from(_appData.cartItems);
 
-    if (_appData.cartItems.contains(item)) {
+    if (newData.any(
+      (element) => element.product == item,
+    )) {
       final index = newData.toList().indexWhere(
-            (element) => element.product.isEqual(item.product),
+            (element) => element.product == item,
           );
-      --newData.toList()[index].quantity;
-      _appData = _appData.copyWith(cartItems: newData);
+
+      if (newData[index].quantity > 1) {
+        --newData[index].quantity;
+        _appData = _appData.copyWith(cartItems: newData);
+      } else {
+        deleteFromCart(item);
+      }
     } else {
       _appData = _appData.copyWith(
         cartItems: newData..remove(item),
       );
     }
+    setState(() {});
+  }
+
+  void deleteFromCart(Product item) {
+    print('Called');
+    final newData = List<CartItem>.from(_appData.cartItems);
+    final index = newData.toList().indexWhere(
+          (element) => element.product == item,
+        );
+    newData.removeAt(index);
+    _appData = _appData.copyWith(
+      cartItems: newData,
+    );
     setState(() {});
   }
 

@@ -46,13 +46,28 @@ class Product {
 
   bool isEqual(Product product) =>
       name == product.name &&
-      brand == product.name &&
+      brand == product.brand &&
       color == product.color &&
       product.image == image &&
       product.price == price;
 
   @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Product &&
+        name == other.name &&
+        brand == other.brand &&
+        color == other.color &&
+        other.image == image &&
+        other.price == price;
+  }
+
+  @override
   String toString() {
     return '${toJson()}';
   }
+
+  @override
+  int get hashCode => name.hashCode;
 }
