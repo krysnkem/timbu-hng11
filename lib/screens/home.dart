@@ -1,0 +1,76 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
+import 'package:shop_bag_app/screens/checkout.dart';
+import 'package:shop_bag_app/screens/products_listing.dart';
+import 'package:shop_bag_app/state/app_state.dart';
+import 'package:shop_bag_app/utils/colors.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0;
+  final PageController _pageController = PageController();
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    log('${AppStateScope.of(context).allProducts}');
+    return Scaffold(
+      body: PageView(
+        controller: _pageController,
+        children: const [
+          ProductsListing(),
+          MyCart(),
+        ],
+      ),
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: onChangeDestination,
+        indicatorColor: appPrimaryColor,
+        selectedIndex: _currentIndex,
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(
+              Icons.list,
+              color: Colors.white,
+            ),
+            icon: Icon(
+              Icons.list,
+            ),
+            label: 'Products',
+          ),
+          NavigationDestination(
+            icon: Badge(
+                child: Icon(
+              Icons.shopping_bag,
+            )),
+            selectedIcon: Badge(
+                child: Icon(
+              Icons.shopping_bag,
+              color: Colors.white,
+            )),
+            label: 'My Cart',
+          ),
+        ],
+      ),
+    );
+  }
+
+  void onChangeDestination(int index) {
+    _pageController.animateToPage(index,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+
+    _currentIndex = index;
+    setState(() {});
+  }
+}
