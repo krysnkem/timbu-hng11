@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_bag_app/screens/order_successful.dart';
 import 'package:shop_bag_app/state/app_state.dart';
 import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
@@ -6,7 +7,9 @@ import 'package:shop_bag_app/utils/text_styles.dart';
 import 'widgets/cart_item_widget.dart';
 
 class MyCart extends StatefulWidget {
-  const MyCart({super.key});
+  const MyCart({super.key, required this.showProductListing});
+
+  final Function() showProductListing;
 
   @override
   State<MyCart> createState() => _MyCartState();
@@ -72,7 +75,7 @@ class _MyCartState extends State<MyCart> with AutomaticKeepAliveClientMixin {
                   children: [
                     const Text(
                       'Total Amount',
-                      style: grey14400,
+                      style: grey16400,
                     ),
                     Text(
                       '₦${getTotalCost(context)}',
@@ -86,24 +89,18 @@ class _MyCartState extends State<MyCart> with AutomaticKeepAliveClientMixin {
               ),
               Visibility(
                 visible: AppStateScope.of(context).cartItems.isNotEmpty,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: appPrimaryColor,
-                        ),
-                        onPressed: () {},
-                        child: const Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: Text(
-                            'CHECK OUT',
-                            style: white14300,
-                          ),
-                        ),
+                child: PrimaryButton(
+                  onPressed: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const OrderSuccessfulScreen(),
                       ),
-                    ),
-                  ],
+                    );
+                    await Future.delayed(const Duration(milliseconds: 200));
+                    widget.showProductListing();
+                  },
+                  label: 'CHECK OUT',
                 ),
               ),
               const SizedBox(
@@ -127,4 +124,35 @@ class _MyCartState extends State<MyCart> with AutomaticKeepAliveClientMixin {
 
   @override
   bool get wantKeepAlive => true;
+}
+
+class PrimaryButton extends StatelessWidget {
+  const PrimaryButton(
+      {super.key, required this.label, required this.onPressed});
+
+  final String label;
+  final Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: appPrimaryColor,
+            ),
+            onPressed: onPressed,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                label,
+                style: white16300,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }

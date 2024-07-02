@@ -16,6 +16,11 @@ const black16600 = TextStyle(
   fontWeight: FontWeight.w600,
   fontSize: 16,
 );
+const black34Bold = TextStyle(
+  color: textBlack,
+  fontWeight: FontWeight.bold,
+  fontSize: 34,
+);
 const black18600 = TextStyle(
   color: textBlack,
   fontWeight: FontWeight.w600,
@@ -31,13 +36,18 @@ const black14500 = TextStyle(
   fontWeight: FontWeight.w500,
   color: textBlack,
 );
-const grey14400 = TextStyle(
-  fontSize: 14,
+const black14400 = TextStyle(
+  fontSize: 18,
+  fontWeight: FontWeight.w300,
+  color: textBlack,
+);
+const grey16400 = TextStyle(
+  fontSize: 16,
   fontWeight: FontWeight.w400,
   color: textGrey,
 );
-const white14300 = TextStyle(
-  fontSize: 14,
+const white16300 = TextStyle(
+  fontSize: 16,
   fontWeight: FontWeight.w300,
   color: Colors.white,
 );

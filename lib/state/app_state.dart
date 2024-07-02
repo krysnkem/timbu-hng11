@@ -113,6 +113,16 @@ class AppStateWidgetState extends State<AppStateWidget> {
     setState(() {});
   }
 
+  void emptyCart() {
+    final newData = List<CartItem>.from(_appData.cartItems);
+
+    newData.clear();
+    _appData = _appData.copyWith(
+      cartItems: newData,
+    );
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppStateScope(

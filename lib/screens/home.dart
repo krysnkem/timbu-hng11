@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_bag_app/screens/checkout.dart';
+import 'package:shop_bag_app/screens/my_cart.dart';
 import 'package:shop_bag_app/screens/products_listing.dart';
 import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/extensions.dart';
@@ -26,9 +26,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: PageView(
         controller: _pageController,
-        children: const [
-          ProductsListing(),
-          MyCart(),
+        onPageChanged: onSwipePage,
+        children: [
+          const ProductsListing(),
+          MyCart(
+            showProductListing: () {
+              onChangeDestination(0);
+            },
+          ),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -74,6 +79,11 @@ class _HomeScreenState extends State<HomeScreen> {
     _pageController.animateToPage(index,
         duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
 
+    _currentIndex = index;
+    setState(() {});
+  }
+
+  void onSwipePage(int index) {
     _currentIndex = index;
     setState(() {});
   }
