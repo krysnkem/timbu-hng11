@@ -52,6 +52,3 @@ These instructions will get you a copy of the project up and running on your loc
 
 You can try out the app [here](https://appetize.io/app/afktgiaqkfl3d36pachcy6rp2a?device=pixel7&osVersion=13.0) on Appetize.io.
 
-To add to cart
-- Click on the bag icon on each item.
-- See all cart items by clicking on the bag icon at the second tab.
