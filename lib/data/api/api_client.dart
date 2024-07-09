@@ -37,7 +37,6 @@ class ApiClient {
           return Failure(message: 'Unable to get products');
         }
 
-
         final data = jsonDecode(response.body);
 
         final productsJson = data['items'] as List<dynamic>;
@@ -55,7 +54,9 @@ class ApiClient {
 
   Future<Object> handleApiCall(Future<Object> Function() call) async {
     try {
-      return await call();
+      return await call().timeout(
+        const Duration(seconds: 20),
+      );
     } on HttpException {
       log('HttpException');
 
