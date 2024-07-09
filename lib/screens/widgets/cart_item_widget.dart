@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_bag_app/screens/widgets/shop_with_red_bg.dart';
 import 'package:shop_bag_app/utils/colors.dart';
@@ -6,22 +7,18 @@ import 'package:shop_bag_app/utils/text_styles.dart';
 class CartItemWidget extends StatelessWidget {
   const CartItemWidget({
     super.key,
-    required this.localAsset,
+    required this.asset,
     required this.quantity,
     required this.itemTitle,
-    required this.availableColors,
-    required this.size,
     this.onAddToCart,
     this.onRemoveFromCart,
     this.onDeleteFromCart,
     required this.price,
   });
 
-  final String localAsset;
+  final String asset;
   final String quantity;
   final String itemTitle;
-  final String availableColors;
-  final String size;
   final String price;
   final Function()? onAddToCart;
   final Function()? onRemoveFromCart;
@@ -49,11 +46,24 @@ class CartItemWidget extends StatelessWidget {
                   ),
                   child: SizedBox(
                     height: double.infinity,
-                    child: Image.asset(
-                      key: ValueKey(localAsset),
-                      'assets/images/$localAsset',
-                      fit: BoxFit.cover,
-                    ),
+                    child: Builder(builder: (context) {
+                      if (!asset.startsWith('http')) {
+                        return Image.asset(
+                          key: ValueKey(asset),
+                          'assets/images/$asset',
+                          fit: BoxFit.cover,
+                        );
+                      } else {
+                        return CachedNetworkImage(
+                          key: ValueKey(asset),
+                          imageUrl: asset,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      }
+                    }),
                   ),
                 ),
               ),
@@ -87,29 +97,6 @@ class CartItemWidget extends StatelessWidget {
                               Icons.close,
                               color: textGrey,
                             ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Text(
-                            'Color:',
-                            style: grey11400,
-                          ),
-                          Text(
-                            availableColors,
-                            style: black11400,
-                          ),
-                          const SizedBox(
-                            width: 25,
-                          ),
-                          const Text(
-                            'Size:',
-                            style: grey11400,
-                          ),
-                          Text(
-                            size,
-                            style: black11400,
                           ),
                         ],
                       ),

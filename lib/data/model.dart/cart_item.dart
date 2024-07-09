@@ -9,10 +9,6 @@ class CartItem {
     required this.quantity,
   });
 
-  bool isEqual(CartItem item) {
-    return product.isEqual(item.product) && quantity == item.quantity;
-  }
-
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;

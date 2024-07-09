@@ -47,15 +47,11 @@ class _MyCartState extends State<MyCart> with AutomaticKeepAliveClientMixin {
                       final data = cartList[index];
                       var localAsset = data.product.image;
                       final itemTitle = data.product.name;
-                      final availableColors = data.product.color;
-                      final size = data.product.size;
 
                       return CartItemWidget(
-                        localAsset: localAsset,
+                        asset: localAsset,
                         quantity: '${data.quantity}',
                         itemTitle: itemTitle,
-                        availableColors: availableColors,
-                        size: size,
                         onAddToCart: () =>
                             AppStateWidget.of(context).addToCart(data.product),
                         onDeleteFromCart: () => AppStateWidget.of(context)

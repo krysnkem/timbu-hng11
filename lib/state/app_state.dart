@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:shop_bag_app/data/data_source.dart';
+import 'package:shop_bag_app/data/api/api_client.dart';
+import 'package:shop_bag_app/data/api/result.dart';
 import 'package:shop_bag_app/data/model.dart/cart_item.dart';
 import 'package:shop_bag_app/data/model.dart/product.dart';
 
 class AppState {
-  AppState({required this.allProducts, this.cartItems = const []});
+  AppState(
+      {required this.allProducts,
+      this.cartItems = const [],
+      this.isLoading = false,
+      this.error});
 
   final List<Product> allProducts;
 
   final List<CartItem> cartItems;
 
-  AppState copyWith({
-    List<Product>? allProducts,
-    List<CartItem>? cartItems,
-  }) {
+  final bool isLoading;
+
+  final String? error;
+
+  AppState copyWith(
+      {List<Product>? allProducts,
+      List<CartItem>? cartItems,
+      bool? isLoading,
+      String? error}) {
     return AppState(
       allProducts: allProducts ?? this.allProducts,
       cartItems: cartItems ?? this.cartItems,
+      isLoading: isLoading ?? this.isLoading,
+      error: error ?? this.error,
     );
   }
 }
@@ -40,7 +52,10 @@ class AppStateScope extends InheritedWidget {
 
   @override
   bool updateShouldNotify(covariant AppStateScope oldWidget) {
-    return data.cartItems != oldWidget.data.cartItems;
+    return data.cartItems != oldWidget.data.cartItems ||
+        data.isLoading != oldWidget.data.isLoading ||
+        data.error != oldWidget.data.error ||
+        data.allProducts != oldWidget.data.allProducts;
   }
 }
 
@@ -58,9 +73,47 @@ class AppStateWidget extends StatefulWidget {
 }
 
 class AppStateWidgetState extends State<AppStateWidget> {
+  @override
+  initState() {
+    super.initState();
+    initializeData();
+  }
+
+  final apiClient = ApiClient();
+
+  void initializeData() async {
+    setIsLoading();
+    final result = await apiClient.getListOfProducts();
+
+    clearIsLoading();
+
+    if (result is Success) {
+      setProducts(List<Product>.from(result.data as List));
+    } else {
+      setError((result as Failure).message);
+    }
+    setState(() {});
+  }
+
   AppState _appData = AppState(
-    allProducts: DataSource.getProducts,
+    allProducts: [],
   );
+
+  void setProducts(List<Product> products) {
+    _appData = _appData.copyWith(allProducts: products);
+  }
+
+  void setError(String error) {
+    _appData = _appData.copyWith(error: error);
+  }
+
+  void setIsLoading() => setState(() {
+        _appData = _appData.copyWith(isLoading: true);
+      });
+  void clearIsLoading() {
+    _appData = _appData.copyWith(isLoading: false);
+    setState(() {});
+  }
 
   void addToCart(Product item) {
     final newData = List<CartItem>.from(_appData.cartItems);

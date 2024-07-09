@@ -32,7 +32,7 @@ class OrderSuccessfulScreen extends StatelessWidget {
                   const Text(
                     'Your order will be delivered soon.Thank you for choosing our app!',
                     textAlign: TextAlign.center,
-                    style: black14400,
+                    style: black18400,
                   ),
                 ],
               ),
@@ -43,7 +43,7 @@ class OrderSuccessfulScreen extends StatelessWidget {
                 label: 'CONTINUE SHOPPING',
                 onPressed: () {
                   AppStateWidget.of(context).emptyCart();
-                  
+
                   Navigator.of(context).pop();
                 },
               ),

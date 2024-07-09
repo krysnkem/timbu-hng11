@@ -1,55 +1,35 @@
-import '../../screens/widgets/product_item.dart';
+import 'package:shop_bag_app/secrets/secret_constants.dart';
 
 class Product {
+  final String id;
   final String name;
-  final int price;
+  final double price;
   final String image;
-  final String brand;
-  final String size;
-  final String color;
+  final String description;
 
   Product({
+    required this.id,
     required this.name,
     required this.price,
     required this.image,
-    required this.brand,
-    required this.size,
-    required this.color,
+    required this.description,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         name: json['name'] as String,
-        price: json['price'] as int,
-        image: json['image'] as String,
-        brand: json['brand'] as String,
-        size: json['size'] as String,
-        color: json['color'] as String,
+        price: json['available_quantity'] as double,
+        image: '$imageBaseUrl/${json['photos'][0]['url'] as String}',
+        id: json['id'],
+        description: json['description'],
       );
 
   Map<String, dynamic> toJson() => {
         'name': name,
         'price': price,
         'image': image,
-        'brand': brand,
-        'size': size,
-        'color': color,
+        'available_quantity': price,
+        'description': description,
       };
-
-  ProductItem toProductItem() {
-    return ProductItem(
-      brand: brand,
-      itemTitle: name, // Assuming itemTitle is the same as name
-      availableColors: color, // Assuming availableColors is a single color
-      size: size, localAsset: image, price: '$price',
-    );
-  }
-
-  bool isEqual(Product product) =>
-      name == product.name &&
-      brand == product.brand &&
-      color == product.color &&
-      product.image == image &&
-      product.price == price;
 
   @override
   bool operator ==(Object other) {
@@ -57,8 +37,8 @@ class Product {
 
     return other is Product &&
         name == other.name &&
-        brand == other.brand &&
-        color == other.color &&
+        description == other.description &&
+        id == other.id &&
         other.image == image &&
         other.price == price;
   }

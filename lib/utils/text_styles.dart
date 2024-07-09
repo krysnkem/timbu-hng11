@@ -36,9 +36,19 @@ const black14500 = TextStyle(
   fontWeight: FontWeight.w500,
   color: textBlack,
 );
-const black14400 = TextStyle(
+const black18400 = TextStyle(
   fontSize: 18,
   fontWeight: FontWeight.w300,
+  color: textBlack,
+);
+const black16400 = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w300,
+  color: textBlack,
+);
+const black24500 = TextStyle(
+  fontSize: 24,
+  fontWeight: FontWeight.w500,
   color: textBlack,
 );
 const grey16400 = TextStyle(

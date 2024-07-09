@@ -1,11 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:shop_bag_app/data/model.dart/product.dart';
+import 'package:shop_bag_app/screens/product_detail_screen.dart';
 import 'package:shop_bag_app/state/app_state.dart';
 import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
 
 import 'widgets/product_item.dart';
-
 
 class ProductsListing extends StatefulWidget {
   const ProductsListing({super.key});
@@ -16,18 +17,11 @@ class ProductsListing extends StatefulWidget {
 
 class _ProductsListingState extends State<ProductsListing>
     with AutomaticKeepAliveClientMixin {
-  late List<Product> shopingList;
-
-  @override
-  void initState() {
-    shopingList = AppStateScope.read(context).allProducts;
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      backgroundColor: backgroundGrey,
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
@@ -40,28 +34,87 @@ class _ProductsListingState extends State<ProductsListing>
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Builder(builder: (context) {
-            return ListView.builder(
-              itemCount: shopingList.length,
-              itemBuilder: (context, index) {
-                final data = shopingList[index];
-                var localAsset = data.image;
-                final brand = data.brand;
-                final itemTitle = data.name;
-                final availableColors = data.color;
-                final size = data.size;
+            final appState = AppStateScope.of(context);
 
-                return ProductItem(
-                  localAsset: localAsset,
-                  brand: brand,
-                  itemTitle: itemTitle,
-                  availableColors: availableColors,
-                  size: size,
-                  onAddToCart: () {
-                    AppStateWidget.of(context).addToCart(data);
-                  },
-                  price: '${data.price}',
-                );
-              },
+            if (!appState.isLoading && appState.error != null) {
+              return RefreshIndicator(
+                onRefresh: () async =>
+                    AppStateWidget.of(context).initializeData(),
+                child: ListView(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.sizeOf(context).height / 3,
+                    ),
+                    Center(
+                      child: Text('${appState.error}'),
+                    )
+                  ],
+                ),
+              );
+            }
+
+            if (appState.isLoading) {
+              return RefreshIndicator(
+                onRefresh: () async =>
+                    AppStateWidget.of(context).initializeData(),
+                child: ListView(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.sizeOf(context).height / 3,
+                    ),
+                    const Center(child: CircularProgressIndicator())
+                  ],
+                ),
+              );
+            }
+
+            final shopingList = appState.allProducts;
+
+            if (shopingList.isEmpty) {
+              return RefreshIndicator(
+                onRefresh: () async =>
+                    AppStateWidget.of(context).initializeData(),
+                child: ListView(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.sizeOf(context).height / 3,
+                    ),
+                    const Center(
+                      child: Text('No products available'),
+                    ),
+                  ],
+                ),
+              );
+            }
+
+            return RefreshIndicator(
+              onRefresh: () async =>
+                  AppStateWidget.of(context).initializeData(),
+              child: ListView.builder(
+                itemCount: shopingList.length,
+                itemBuilder: (context, index) {
+                  final data = shopingList[index];
+
+                  return ProductItem(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ProductDetailScreen(
+                            productId: data.id,
+                          ),
+                        ),
+                      );
+                    },
+                    asset: data.image,
+                    itemTitle: data.name,
+                    description: data.description,
+                    onAddToCart: () {
+                      AppStateWidget.of(context).addToCart(data);
+                    },
+                    price: '${data.price}',
+                  );
+                },
+              ),
             );
           }),
         ),
