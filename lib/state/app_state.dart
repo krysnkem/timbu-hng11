@@ -82,6 +82,7 @@ class AppStateWidgetState extends State<AppStateWidget> {
   final apiClient = ApiClient();
 
   void initializeData() async {
+    clearError();
     setIsLoading();
     final result = await apiClient.getListOfProducts();
 
@@ -105,6 +106,10 @@ class AppStateWidgetState extends State<AppStateWidget> {
 
   void setError(String error) {
     _appData = _appData.copyWith(error: error);
+  }
+
+  void clearError() {
+    _appData = _appData.copyWith(error: null);
   }
 
   void setIsLoading() => setState(() {
