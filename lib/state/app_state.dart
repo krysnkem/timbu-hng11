@@ -28,7 +28,7 @@ class AppState {
       allProducts: allProducts ?? this.allProducts,
       cartItems: cartItems ?? this.cartItems,
       isLoading: isLoading ?? this.isLoading,
-      error: error ?? this.error,
+      error: error,
     );
   }
 }
