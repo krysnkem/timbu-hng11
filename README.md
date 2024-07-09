@@ -7,7 +7,7 @@ This is a simple shopping app built using Flutter, showcasing a list of products
 ## Features
 
 - Bottom navigation bar with Products and Checkout items.
-- Static list of products/items displayed under the Products tab.
+- Dynamic list of products/items from timbu business api displayed under the Products tab.
 - Checkout tab displaying the products added for checkout.
 - Functionality to add and remove items from the checkout cart.
 - Button to navigate to an Order Successful screen from the Checkout screen.
