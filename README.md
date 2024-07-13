@@ -31,12 +31,12 @@ These instructions will get you a copy of the project up and running on your loc
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/krysnkem/hng11-shoping-app.git
+   git clone  https://github.com/krysnkem/timbu-hng11.git
    ```
 
 2. Navigate to the project directory:
    ```bash
-    cd hng11-shoping-app
+    cd timbu-hng11
    ```
 3. Install the necessary dependencies:
    ```bash
@@ -50,8 +50,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Test App
 
-You can try out the app [here](https://appetize.io/app/b_p26frqvc4tucvjmmj7qi7ttfju) on Appetize.io.
+You can try out the app [here](https://appetize.io/app/b_jfbxlzci2txogarbxrm4ev3ahi) on Appetize.io.
 
 To add to cart
-- Click on the bag icon on each item.
-- See all cart items by clicking on the bag icon at the second tab.
+- Click on add to cart on each item.
+- See all cart items by clicking on the cart icon at the second tab.
