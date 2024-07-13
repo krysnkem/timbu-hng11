@@ -6,6 +6,7 @@ import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
 
 import 'widgets/cart_item_widget.dart';
+import 'widgets/my_app_bar.dart';
 import 'widgets/primary_button.dart';
 
 class MyCart extends StatefulWidget {

@@ -4,6 +4,9 @@ import 'package:shop_bag_app/screens/widgets/primary_button.dart';
 import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
 
+import 'widgets/height8.dart';
+import 'widgets/my_app_bar.dart';
+
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
 
