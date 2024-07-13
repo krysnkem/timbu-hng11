@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_bag_app/screens/widgets/shop_with_red_bg.dart';
-import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
 
 class CartItemWidget extends StatelessWidget {
@@ -100,9 +99,9 @@ class CartItemWidget extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: onDeleteFromCart,
-                            child: const Icon(
-                              Icons.close,
-                              color: textGrey,
+                            child: Image.asset(
+                              'assets/images/trash.png',
+                              width: 20,
                             ),
                           ),
                         ],
