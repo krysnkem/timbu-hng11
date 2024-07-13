@@ -347,6 +347,7 @@ class DoubleProductWidget extends StatelessWidget {
                   onAddToCart: () {
                     AppStateWidget.of(context).addToCart(product1);
                   },
+                  rating: int.parse(product1.rating),
                 );
               })
             ],
@@ -377,6 +378,7 @@ class DoubleProductWidget extends StatelessWidget {
                   onAddToCart: () {
                     AppStateWidget.of(context).addToCart(product2);
                   },
+                  rating: int.parse(product2.rating),
                 );
               })
             ],
@@ -394,12 +396,14 @@ class ProductWidget extends StatelessWidget {
     required this.itemDescription,
     required this.price,
     required this.onAddToCart,
+    required this.rating,
   });
 
   final String itemName;
   final String itemDescription;
   final String price;
   final VoidCallback onAddToCart;
+  final int rating;
 
   @override
   Widget build(BuildContext context) {
@@ -419,17 +423,23 @@ class ProductWidget extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         const Height4(),
-        const Row(
+        Row(
           children: [
-            Icon(
-              Icons.star,
-              color: starGold,
-              size: 16,
+            ...List.generate(
+              rating,
+              (index) => const Icon(
+                Icons.star,
+                color: starGold,
+                size: 16,
+              ),
             ),
-            Icon(
-              Icons.star_border,
-              color: starGold,
-              size: 16,
+            ...List.generate(
+              5 - rating,
+              (index) => const Icon(
+                Icons.star_border,
+                color: starGold,
+                size: 16,
+              ),
             ),
           ],
         ),
