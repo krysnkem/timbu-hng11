@@ -3,51 +3,55 @@ import 'package:shop_bag_app/secrets/secret_constants.dart';
 class Product {
   final String id;
   final String name;
-  final double price;
-  final String image;
   final String description;
+  final bool isAvailable;
+  final String imageUrl;
+  final String rating;
+  final String category;
+  final double price;
 
   Product({
     required this.id,
     required this.name,
-    required this.price,
-    required this.image,
     required this.description,
+    required this.isAvailable,
+    required this.imageUrl,
+    required this.rating,
+    required this.category,
+    required this.price,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-        name: json['name'] as String,
-        price: json['available_quantity'] as double,
-        image: '$imageBaseUrl/${json['photos'][0]['url'] as String}',
-        id: json['id'],
-        description: json['description'],
-      );
+  factory Product.fromJson(Map<String, dynamic> json) {
+    // Extracting imageUrl
+    String imageUrl = json['photos'].isNotEmpty
+        ? '$imageBaseUrl/${json['photos'][0]['url']}'
+        : '';
 
-  Map<String, dynamic> toJson() => {
-        'name': name,
-        'price': price,
-        'image': image,
-        'available_quantity': price,
-        'description': description,
-      };
+    // Extracting category and rating
+    String rating = '';
+    String category = '';
+    for (var cat in json['categories']) {
+      if (int.tryParse(cat['name']) != null) {
+        rating = cat['name'];
+      } else {
+        category = cat['name'];
+      }
+    }
 
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
+    // Extracting price
+    double price = json['current_price'].isNotEmpty && json['current_price'][0]['NGN'] != null && json['current_price'][0]['NGN'][0] != null
+        ? json['current_price'][0]['NGN'][0].toDouble()
+        : 0.0;
 
-    return other is Product &&
-        name == other.name &&
-        description == other.description &&
-        id == other.id &&
-        other.image == image &&
-        other.price == price;
+    return Product(
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+      isAvailable: json['is_available'],
+      imageUrl: imageUrl,
+      rating: rating,
+      category: category,
+      price: price,
+    );
   }
-
-  @override
-  String toString() {
-    return '${toJson()}';
-  }
-
-  @override
-  int get hashCode => name.hashCode;
 }

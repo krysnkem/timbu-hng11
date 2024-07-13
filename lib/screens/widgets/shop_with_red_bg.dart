@@ -35,21 +35,16 @@ class AddWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 10,
-      shape: const CircleBorder(),
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          shape: BoxShape.circle,
-        ),
-        child: const Icon(
-          Icons.add,
-          color: textGrey,
-          size: 22,
-        ),
+    return Container(
+      width: 20,
+      height: 20,
+      decoration: BoxDecoration(
+        border: Border.all(color: mainBlack),
+      ),
+      child: const Icon(
+        Icons.add,
+        color: mainBlack,
+        size: 12,
       ),
     );
   }
@@ -62,21 +57,16 @@ class MinusWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 10,
-      shape: const CircleBorder(),
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          shape: BoxShape.circle,
-        ),
-        child: const Icon(
-          Icons.remove,
-          color: textGrey,
-          size: 22,
-        ),
+    return Container(
+      width: 20,
+      height: 20,
+      decoration: BoxDecoration(
+        border: Border.all(color: mainBlack),
+      ),
+      child: const Icon(
+        Icons.remove,
+        color: mainBlack,
+        size: 12,
       ),
     );
   }

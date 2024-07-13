@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shop_bag_app/screens/my_cart.dart';
 import 'package:shop_bag_app/state/app_state.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
+
+import 'widgets/primary_button.dart';
 
 class OrderSuccessfulScreen extends StatelessWidget {
   const OrderSuccessfulScreen({super.key});
@@ -18,7 +19,7 @@ class OrderSuccessfulScreen extends StatelessWidget {
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset('assets/images/bags.png'),
+                  Image.asset('assets/images/all_good.png'),
                   const SizedBox(
                     height: 50,
                   ),

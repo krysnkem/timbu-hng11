@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_bag_app/screens/widgets/shop_with_red_bg.dart';
@@ -26,6 +28,11 @@ class CartItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final key = itemTitle;
+
+    String decoded = utf8.decode(key.runes.toList());
+    // Normalize the string to remove any non-standard characters
+    String normalized = decoded.replaceAll(RegExp(r'[\uFFFD]'), '');
     return Padding(
       padding: const EdgeInsets.only(top: 2.0, bottom: 26),
       child: Card(
@@ -82,7 +89,7 @@ class CartItemWidget extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              itemTitle,
+                              normalized,
                               style: black16600,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

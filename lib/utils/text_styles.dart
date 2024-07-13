@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shop_bag_app/utils/colors.dart';
 
 const pageTitleStyle = TextStyle(
-  color: textBlack,
+  color: mainBlack,
   fontWeight: FontWeight.w600,
   fontSize: 25,
 );
@@ -11,46 +12,28 @@ const grey11400 = TextStyle(
   color: textGrey,
   fontSize: 11,
 );
-const black16600 = TextStyle(
-  color: textBlack,
-  fontWeight: FontWeight.w600,
-  fontSize: 16,
-);
+
 const black34Bold = TextStyle(
-  color: textBlack,
+  color: mainBlack,
   fontWeight: FontWeight.bold,
   fontSize: 34,
 );
 const black18600 = TextStyle(
-  color: textBlack,
+  color: mainBlack,
   fontWeight: FontWeight.w600,
   fontSize: 18,
 );
 const black11400 = TextStyle(
   fontSize: 11,
-  color: textBlack,
+  color: mainBlack,
 );
 
-const black14500 = TextStyle(
-  fontSize: 14,
-  fontWeight: FontWeight.w500,
-  color: textBlack,
-);
 const black18400 = TextStyle(
   fontSize: 18,
   fontWeight: FontWeight.w300,
-  color: textBlack,
+  color: mainBlack,
 );
-const black16400 = TextStyle(
-  fontSize: 16,
-  fontWeight: FontWeight.w300,
-  color: textBlack,
-);
-const black24500 = TextStyle(
-  fontSize: 24,
-  fontWeight: FontWeight.w500,
-  color: textBlack,
-);
+
 const grey16400 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,
@@ -60,4 +43,82 @@ const white16300 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w300,
   color: Colors.white,
+);
+
+final black19600 = GoogleFonts.montserrat(
+  fontSize: 19,
+  color: mainBlack,
+  fontWeight: FontWeight.w600,
+);
+final black20600 = GoogleFonts.montserrat(
+  fontSize: 20,
+  color: mainBlack,
+  fontWeight: FontWeight.w600,
+);
+final black12600 = GoogleFonts.montserrat(
+  fontSize: 12,
+  color: mainBlack,
+  fontWeight: FontWeight.w600,
+);
+final black12500 = GoogleFonts.montserrat(
+  fontSize: 12,
+  color: mainBlack,
+  fontWeight: FontWeight.w500,
+);
+final black12400 = GoogleFonts.montserrat(
+  fontSize: 12,
+  color: mainBlack,
+  fontWeight: FontWeight.w400,
+);
+
+final white20600 = GoogleFonts.montserrat(
+  fontSize: 19,
+  color: mainWhite,
+  fontWeight: FontWeight.w600,
+);
+
+final white12500 = GoogleFonts.montserrat(
+  fontSize: 12,
+  color: mainWhite,
+  fontWeight: FontWeight.w500,
+);
+final accent13500 = GoogleFonts.montserrat(
+  fontSize: 13,
+  color: accentColor,
+  fontWeight: FontWeight.w500,
+);
+
+final black14500 = GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+  color: mainBlack,
+);
+
+final black24500 = GoogleFonts.montserrat(
+  fontSize: 24,
+  fontWeight: FontWeight.w500,
+  color: mainBlack,
+);
+
+final black24600 = GoogleFonts.montserrat(
+  fontSize: 24,
+  fontWeight: FontWeight.w600,
+  color: mainBlack,
+);
+
+final black16600 = GoogleFonts.montserrat(
+  color: mainBlack,
+  fontWeight: FontWeight.w600,
+  fontSize: 16,
+);
+final black16500 = GoogleFonts.montserrat(
+  color: mainBlack,
+  fontWeight: FontWeight.w500,
+  fontSize: 16,
+);
+
+final black16400 = GoogleFonts.montserrat(
+  fontSize: 16,
+  fontWeight: FontWeight.w300,
+  color: mainBlack,
 );

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:shop_bag_app/data/api/api_client.dart';
 import 'package:shop_bag_app/data/api/result.dart';
@@ -8,10 +10,12 @@ class AppState {
   AppState(
       {required this.allProducts,
       this.cartItems = const [],
+      this.productMapping = const {},
       this.isLoading = false,
       this.error});
 
   final List<Product> allProducts;
+  final Map<String, List<List<Product>>> productMapping;
 
   final List<CartItem> cartItems;
 
@@ -23,11 +27,13 @@ class AppState {
       {List<Product>? allProducts,
       List<CartItem>? cartItems,
       bool? isLoading,
+      Map<String, List<List<Product>>>? productMapping,
       String? error}) {
     return AppState(
       allProducts: allProducts ?? this.allProducts,
       cartItems: cartItems ?? this.cartItems,
       isLoading: isLoading ?? this.isLoading,
+      productMapping: productMapping ?? this.productMapping,
       error: error,
     );
   }
@@ -100,8 +106,54 @@ class AppStateWidgetState extends State<AppStateWidget> {
     allProducts: [],
   );
 
+  List<String> get getCategories => _appData.allProducts
+      .map(
+        (e) => e.category,
+      )
+      .toSet()
+      .toList();
+
+  List<Product> getProductsforCategory(String category) {
+    return _appData.allProducts
+        .where(
+          (element) => element.category == category,
+        )
+        .toList();
+  }
+
+  List<List<Product>> getProductsInPagesByCategory(String category) {
+    final categoryList = getProductsforCategory(category);
+    return splitProductsIntoSublists(categoryList, 2);
+  }
+
+  List<List<Product>> splitProductsIntoSublists(
+      List<Product> products, int maxItemsPerList) {
+    List<List<Product>> result = [];
+    for (int i = 0; i < products.length; i += maxItemsPerList) {
+      result.add(
+        products.sublist(
+            i,
+            i + maxItemsPerList > products.length
+                ? products.length
+                : i + maxItemsPerList),
+      );
+    }
+    return result;
+  }
+
+  Map<String, List<List<Product>>> get getProductMapping {
+    final allCategories = getCategories;
+    final holder = <String, List<List<Product>>>{};
+    for (final category in allCategories) {
+      holder[category] = getProductsInPagesByCategory(category);
+    }
+    return holder;
+  }
+
   void setProducts(List<Product> products) {
     _appData = _appData.copyWith(allProducts: products);
+    _appData = _appData.copyWith(productMapping: getProductMapping);
+    log('$getProductMapping');
   }
 
   void setError(String error) {

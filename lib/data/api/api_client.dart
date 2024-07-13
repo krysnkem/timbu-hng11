@@ -38,6 +38,7 @@ class ApiClient {
         }
 
         final data = jsonDecode(response.body);
+        log(response.body);
 
         final productsJson = data['items'] as List<dynamic>;
 
