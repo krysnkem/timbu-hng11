@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:shop_bag_app/screens/checkout_page.dart';
 import 'package:shop_bag_app/screens/my_cart.dart';
@@ -111,10 +113,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void onChangeDestination(int index) {
-    _pageController.animateToPage(index,
-        duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
 
     _currentIndex = index;
+    log('Called');
     setState(() {});
   }
 

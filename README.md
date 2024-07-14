@@ -50,7 +50,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Test App
 
-You can try out the app [here](https://appetize.io/app/b_jfbxlzci2txogarbxrm4ev3ahi) on Appetize.io.
+You can try out the app [here](https://appetize.io/app/b_wqm52al643ta75cxe2gtknntbi) on Appetize.io.
 
 To add to cart
 - Click on add to cart on each item.
