@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shop_bag_app/data/model.dart/product.dart';
-import 'package:shop_bag_app/screens/products_listing.dart';
 import 'package:shop_bag_app/screens/widgets/active_dot.dart';
 import 'package:shop_bag_app/screens/widgets/double_product_widget.dart';
 import 'package:shop_bag_app/screens/widgets/height4.dart';
@@ -40,18 +39,28 @@ class _CategoryPageItemsState extends State<CategoryPageItems> {
     final itemWidgets = <Widget>[];
 
     for (final item in widget.categoryItems) {
-      itemWidgets.add(DoubleProductWidget(
-        product1: item[0],
-        product2: item[1],
-      ));
+      itemWidgets.add(
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 24.0,
+            right: 24.0,
+          ),
+          child: DoubleProductWidget(
+            products: item,
+          ),
+        ),
+      );
     }
     return Builder(builder: (context) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            widget.categoryName,
-            style: black20600,
+          Padding(
+            padding: const EdgeInsets.only(left: 24.0),
+            child: Text(
+              widget.categoryName,
+              style: black20600,
+            ),
           ),
           const Height8(),
           const Height4(),

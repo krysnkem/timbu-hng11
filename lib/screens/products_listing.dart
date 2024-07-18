@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shop_bag_app/state/app_state.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
@@ -33,7 +31,7 @@ class _ProductsListingState extends State<ProductsListing>
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 24.0, right: 24.0, top: 24.0),
+        padding: const EdgeInsets.only(top: 24.0),
         child: Builder(builder: (context) {
           final appState = AppStateScope.of(context);
 
@@ -75,32 +73,38 @@ class _ProductsListingState extends State<ProductsListing>
           return SingleChildScrollView(
             child: Column(
               children: [
-                Stack(
-                  children: [
-                    Image.asset('assets/images/Big Image Card (1).png'),
-                    Positioned(
-                      top: 0,
-                      bottom: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.all(26.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Premium Sound, \nPremium Savings",
-                              style: white20600,
-                            ),
-                            const Height8(),
-                            Text(
-                              "Limited offer, hope on and get yours now",
-                              style: white12500,
-                            ),
-                          ],
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 24.0,
+                    right: 24.0,
+                  ),
+                  child: Stack(
+                    children: [
+                      Image.asset('assets/images/Big Image Card (1).png'),
+                      Positioned(
+                        top: 0,
+                        bottom: 0,
+                        child: Padding(
+                          padding: const EdgeInsets.all(26.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Premium Sound, \nPremium Savings",
+                                style: white20600,
+                              ),
+                              const Height8(),
+                              Text(
+                                "Limited offer, hope on and get yours now",
+                                style: white12500,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 44,
@@ -138,15 +142,11 @@ class _ProductsListingState extends State<ProductsListing>
                         final key =
                             appState.productMapping.keys.toList()[index];
 
-                        String decoded = utf8.decode(key.runes.toList());
-                        // Normalize the string to remove any non-standard characters
-                        String normalized =
-                            decoded.replaceAll(RegExp(r'[\uFFFD]'), '');
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 60.0),
                           child: CategoryPageItems(
                             categoryItems: appState.productMapping[key]!,
-                            categoryName: capitalize(normalized),
+                            categoryName: key,
                           ),
                         );
                       },
@@ -159,18 +159,6 @@ class _ProductsListingState extends State<ProductsListing>
         }),
       ),
     );
-  }
-
-  String capitalize(String text) {
-    if (text.isEmpty) return text; // Return empty string if input is empty
-
-    List<String> words = text.split(' ');
-    List<String> capitalizedWords = words.map((word) {
-      if (word.isEmpty) return word; // Return empty word if input word is empty
-      return word.substring(0, 1).toUpperCase() + word.substring(1);
-    }).toList();
-
-    return capitalizedWords.join(' ');
   }
 
   @override

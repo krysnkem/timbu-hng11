@@ -23,6 +23,6 @@ class CartItem {
 
   @override
   String toString() {
-    return 'CartIte product$product quantity $quantity';
+    return 'CartItem: product $product, quantity $quantity';
   }
 }

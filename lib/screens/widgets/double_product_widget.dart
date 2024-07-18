@@ -5,84 +5,85 @@ import 'package:shop_bag_app/screens/widgets/height4.dart';
 import 'package:shop_bag_app/screens/widgets/height8.dart';
 import 'package:shop_bag_app/screens/widgets/product_widget.dart';
 import 'package:shop_bag_app/state/app_state.dart';
+import 'package:shop_bag_app/utils/colors.dart';
+import 'package:shop_bag_app/utils/extensions.dart';
 
 class DoubleProductWidget extends StatelessWidget {
   const DoubleProductWidget({
     super.key,
-    required this.product1,
-    required this.product2,
+    required this.products,
   });
 
-  final Product product1;
-  final Product product2;
+  final List<Product> products;
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SizedBox(
-          width: 150,
-          child: Column(
-            children: [
-              CachedNetworkImage(
-                key: ValueKey(product1.imageUrl),
-                imageUrl: product1.imageUrl,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => const Center(
-                  child: SizedBox(
-                    height: 150,
-                    child: Center(child: CircularProgressIndicator()),
-                  ),
-                ),
+        ...products
+            .map<Widget>(
+              (product) => ProductWithImage(
+                product: product,
               ),
-              const Height8(),
-              const Height4(),
-              Builder(builder: (context) {
-                return ProductWidget(
-                  itemName: product1.name,
-                  itemDescription: product1.description,
-                  price: '${product1.price}',
-                  onAddToCart: () {
-                    AppStateWidget.of(context).addToCart(product1);
-                  },
-                  rating: int.parse(product1.rating),
-                );
-              })
-            ],
-          ),
-        ),
-        SizedBox(
-          width: 150,
-          child: Column(
-            children: [
-              CachedNetworkImage(
-                key: ValueKey(product2.imageUrl),
-                imageUrl: product2.imageUrl,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => const Center(
-                  child: SizedBox(
-                    height: 150,
-                    child: Center(child: CircularProgressIndicator()),
-                  ),
-                ),
-              ),
-              const Height8(),
-              const Height4(),
-              Builder(builder: (context) {
-                return ProductWidget(
-                  itemName: product2.name,
-                  itemDescription: product2.description,
-                  price: '${product2.price}',
-                  onAddToCart: () {
-                    AppStateWidget.of(context).addToCart(product2);
-                  },
-                  rating: int.parse(product2.rating),
-                );
-              })
-            ],
-          ),
-        ),
+            )
+            .toList(),
       ],
     );
+  }
+}
+
+class ProductWithImage extends StatelessWidget {
+  const ProductWithImage({
+    super.key,
+    required this.product,
+  });
+  final Product product;
+
+  @override
+  Widget build(BuildContext context) {
+    return Builder(builder: (context) {
+      return SizedBox(
+        width: 150,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 150,
+              child: CachedNetworkImage(
+                key: ValueKey(product.imageUrl),
+                imageUrl: product.imageUrl,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(
+                  width: 150,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    color: imageGrey,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+              ),
+            ),
+            const Height8(),
+            const Height4(),
+            Builder(builder: (context) {
+              return ProductWidget(
+                itemName: product.name,
+                itemDescription: product.description,
+                price: '${product.price}',
+                onAddToCart: () {
+                  AppStateWidget.of(context).addToCart(product);
+                },
+                rating: int.parse(product.rating),
+                removeFromCart: () {
+                  AppStateWidget.of(context).deleteFromCart(product);
+                },
+                isInCart: context.getAppState().cartItems.any(
+                      (element) => element.product == product,
+                    ),
+              );
+            })
+          ],
+        ),
+      );
+    });
   }
 }

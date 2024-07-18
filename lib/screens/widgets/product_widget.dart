@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shop_bag_app/screens/products_listing.dart';
 import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
 
@@ -14,13 +13,17 @@ class ProductWidget extends StatelessWidget {
     required this.price,
     required this.onAddToCart,
     required this.rating,
+    required this.isInCart,
+    required this.removeFromCart,
   });
 
   final String itemName;
   final String itemDescription;
   final String price;
   final VoidCallback onAddToCart;
+  final VoidCallback removeFromCart;
   final int rating;
+  final bool isInCart;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +76,7 @@ class ProductWidget extends StatelessWidget {
             customBorder: BeveledRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
-            onTap: onAddToCart,
+            onTap: isInCart ? removeFromCart : onAddToCart,
             child: Ink(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
@@ -81,7 +84,7 @@ class ProductWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(14),
               ),
               child: Text(
-                'Add to Cart',
+                isInCart ? 'Remove from Cart' : 'Add to Cart',
                 style: black12500,
               ),
             ),

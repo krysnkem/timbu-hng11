@@ -22,6 +22,6 @@ class BottomNavBar {
   static const String? _kFontPkg = null;
 
   static const IconData home_2 = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData group_2238 = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData shopping_cart = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData shopping_cart_2 = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData shop_cart_arrow = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
