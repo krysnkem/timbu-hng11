@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_bag_app/screens/widgets/height8.dart';
 import 'package:shop_bag_app/screens/widgets/shop_with_red_bg.dart';
+import 'package:shop_bag_app/utils/extensions.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
 
 class CartItemWidget extends StatelessWidget {
@@ -13,12 +15,14 @@ class CartItemWidget extends StatelessWidget {
     this.onRemoveFromCart,
     this.onDeleteFromCart,
     required this.price,
+    required this.description,
   });
 
   final String asset;
   final String quantity;
   final String itemTitle;
   final String price;
+  final String description;
   final Function()? onAddToCart;
   final Function()? onRemoveFromCart;
   final Function()? onDeleteFromCart;
@@ -99,6 +103,12 @@ class CartItemWidget extends StatelessWidget {
                           ),
                         ],
                       ),
+                      Text(
+                        description,
+                        style: grey11400,
+                      ),
+                      const Height8(),
+                      const Height8(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -125,7 +135,7 @@ class CartItemWidget extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            '₦$price',
+                            '₦${price.formattedAmount}',
                             style: black14500,
                           ),
                         ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shop_bag_app/screens/products_listing.dart';
+import 'package:shop_bag_app/screens/payment_flow.dart';
+import 'package:shop_bag_app/screens/widgets/malltiverse_top_bar_icon.dart';
 import 'package:shop_bag_app/screens/widgets/primary_button.dart';
 import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
@@ -25,10 +26,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
           'Checkout',
           style: black19600,
         ),
-        leading: Image.asset(
-          'assets/images/Malltiverse Logo.png',
-          width: 100,
-        ),
+        leading: const MalltiverseTopBarIcon(),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -140,7 +138,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
               const Height8(),
               PrimaryButton(
                 label: 'Complete Order',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(paymentPage);
+                },
               )
             ],
           ),

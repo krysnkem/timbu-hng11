@@ -1,28 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:shop_bag_app/screens/order_successful.dart';
 import 'package:shop_bag_app/screens/widgets/malltiverse_top_bar_icon.dart';
 import 'package:shop_bag_app/state/app_state.dart';
 import 'package:shop_bag_app/utils/colors.dart';
+import 'package:shop_bag_app/utils/extensions.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
 
 import 'widgets/cart_item_widget.dart';
 import 'widgets/my_app_bar.dart';
 import 'widgets/primary_button.dart';
+import 'widgets/shopping_summary_bottom_sheet.dart';
+import 'widgets/title_and_amount.dart';
 
 class MyCart extends StatefulWidget {
-  const MyCart({super.key, required this.showProductListing});
+  const MyCart(
+      {super.key, required this.showProductListing, required this.gotCheckOut});
 
   final Function() showProductListing;
+  final Function() gotCheckOut;
 
   @override
   State<MyCart> createState() => _MyCartState();
 }
 
 class _MyCartState extends State<MyCart> with AutomaticKeepAliveClientMixin {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      key: _scaffoldKey,
+      resizeToAvoidBottomInset: true,
       appBar: MyAppBar(
         title: Text(
           'My Cart',
@@ -65,6 +73,7 @@ class _MyCartState extends State<MyCart> with AutomaticKeepAliveClientMixin {
                         onRemoveFromCart: () => AppStateWidget.of(context)
                             .removeFromCart(data.product),
                         price: '${data.product.price}',
+                        description: data.product.description,
                       );
                     },
                   );
@@ -74,41 +83,57 @@ class _MyCartState extends State<MyCart> with AutomaticKeepAliveClientMixin {
                 visible: AppStateScope.of(context).cartItems.isNotEmpty,
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Total Amount',
-                          style: black12500.copyWith(
-                              color: mainBlack.withOpacity(0.8)),
-                        ),
-                        Text(
-                          '₦${getTotalCost(context)}',
-                          style: black18600,
-                        ),
-                      ],
+                    Builder(
+                      builder: (context) {
+                        var name = 'Total Amount';
+                        var value = getTotalCost(context)
+                            .toInt()
+                            .toString()
+                            .formattedAmount;
+                        return TitleandAmount(
+                          name: name,
+                          value: value,
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 26,
+                    ),
+                    PrimaryButton(
+                      onPressed: () async {
+                        showModalBottomSheet<OrderSummary?>(
+                          context: context,
+                          backgroundColor: Colors.transparent,
+                          isScrollControlled: true,
+                          builder: (BuildContext context) => SizedBox(
+                            width: MediaQuery.sizeOf(context).width - 48,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                bottom: MediaQuery.viewInsetsOf(context)
+                                        .bottom +
+                                    (MediaQuery.sizeOf(context).height / 20),
+                              ),
+                              child: ShoppingSummaryBottomSheet(
+                                widget: widget,
+                                allProductPrice: getTotalCost(context),
+                              ),
+                            ),
+                          ),
+                        ).then(
+                          (value) {
+                            if (value != null) {
+                              widget.gotCheckOut();
+                            }
+                          },
+                        );
+                      },
+                      label: 'CHECK OUT',
                     ),
                   ],
                 ),
               ),
               const SizedBox(
                 height: 26,
-              ),
-              Visibility(
-                visible: AppStateScope.of(context).cartItems.isNotEmpty,
-                child: PrimaryButton(
-                  onPressed: () async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const OrderSuccessfulScreen(),
-                      ),
-                    );
-                    await Future.delayed(const Duration(milliseconds: 200));
-                    widget.showProductListing();
-                  },
-                  label: 'CHECK OUT',
-                ),
               ),
               const SizedBox(
                 height: 16,

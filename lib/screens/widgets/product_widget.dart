@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shop_bag_app/screens/widgets/favourite_widget_outlined.dart';
 import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
 
+import 'favourite_icon_filled.dart';
 import 'height4.dart';
 import 'height8.dart';
 
@@ -15,6 +17,9 @@ class ProductWidget extends StatelessWidget {
     required this.rating,
     required this.isInCart,
     required this.removeFromCart,
+    this.isFavourite = false,
+    required this.addToFavourite,
+    required this.removeFromFavourite,
   });
 
   final String itemName;
@@ -22,8 +27,11 @@ class ProductWidget extends StatelessWidget {
   final String price;
   final VoidCallback onAddToCart;
   final VoidCallback removeFromCart;
+  final VoidCallback addToFavourite;
+  final VoidCallback removeFromFavourite;
   final int rating;
   final bool isInCart;
+  final bool isFavourite;
 
   @override
   Widget build(BuildContext context) {
@@ -45,28 +53,45 @@ class ProductWidget extends StatelessWidget {
         const Height4(),
         Row(
           children: [
-            ...List.generate(
-              rating,
-              (index) => const Icon(
-                Icons.star,
-                color: starGold,
-                size: 16,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      ...List.generate(
+                        rating,
+                        (index) => const Icon(
+                          Icons.star,
+                          color: starGold,
+                          size: 16,
+                        ),
+                      ),
+                      ...List.generate(
+                        5 - rating,
+                        (index) => const Icon(
+                          Icons.star_border,
+                          color: starGold,
+                          size: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Height8(),
+                  Text(
+                    'N $price',
+                    style: accent13500,
+                  ),
+                ],
               ),
             ),
-            ...List.generate(
-              5 - rating,
-              (index) => const Icon(
-                Icons.star_border,
-                color: starGold,
-                size: 16,
-              ),
-            ),
+            IconButton(
+              onPressed: isFavourite ? removeFromFavourite : addToFavourite,
+              icon: isFavourite
+                  ? const FavouriteIconWidgetFilled()
+                  : const FavouriteIconWidgetOutlined(),
+            )
           ],
-        ),
-        const Height8(),
-        Text(
-          'N $price',
-          style: accent13500,
         ),
         const Height8(),
         const Height4(),

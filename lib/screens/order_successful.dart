@@ -5,7 +5,9 @@ import 'package:shop_bag_app/utils/text_styles.dart';
 import 'widgets/primary_button.dart';
 
 class OrderSuccessfulScreen extends StatelessWidget {
-  const OrderSuccessfulScreen({super.key});
+  const OrderSuccessfulScreen({super.key, required this.onCompletePayment});
+
+  final VoidCallback onCompletePayment;
 
   @override
   Widget build(BuildContext context) {

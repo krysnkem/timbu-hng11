@@ -10,3 +10,6 @@ const Color starGold = Color(0xffFFC657);
 const Color mainWhite = Color(0xffFAFAFA);
 const Color borderGrey = Color(0xff979797);
 const Color imageGrey = Color(0xffEDEDED);
+
+final Color mainBlackA80 = mainBlack.withOpacity(0.8);
+final Color mainBlackA60 = mainBlack.withOpacity(0.6);

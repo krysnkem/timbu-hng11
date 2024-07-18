@@ -7,11 +7,13 @@ class PrimaryButton extends StatelessWidget {
       {super.key,
       required this.label,
       required this.onPressed,
-      this.isExpanded = true});
+      this.isExpanded = true,
+      this.enabled = true});
 
   final String label;
   final Function() onPressed;
   final bool isExpanded;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +29,9 @@ class PrimaryButton extends StatelessWidget {
             ),
             elevation: 0,
           ),
-          onPressed: onPressed,
+          onPressed: enabled ? onPressed : null,
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(isExpanded ? 16.0 : 0),
             child: Text(
               label,
               style: black12600,

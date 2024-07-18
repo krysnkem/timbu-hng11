@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shop_bag_app/screens/checkout_page.dart';
 import 'package:shop_bag_app/screens/my_cart.dart';
+import 'package:shop_bag_app/screens/payment_flow.dart';
 import 'package:shop_bag_app/screens/products_listing.dart';
 import 'package:shop_bag_app/utils/bottom_nav_bar_icons.dart';
 import 'package:shop_bag_app/utils/colors.dart';
@@ -64,8 +64,15 @@ class _HomeScreenState extends State<HomeScreen> {
             showProductListing: () {
               onChangeDestination(0);
             },
+            gotCheckOut: () {
+              onChangeDestination(2);
+            },
           ),
-          const CheckoutPage(),
+          PaymentFlow(
+            onCompletePayment: () {
+              onChangeDestination(0);
+            },
+          ),
         ],
       ),
       bottomNavigationBar: Padding(

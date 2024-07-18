@@ -15,7 +15,7 @@ extension StringExt on String {
     return normalized;
   }
 
-   String get capitalize {
+  String get capitalize {
     if (isEmpty) return this; // Return empty string if input is empty
 
     List<String> words = split(' ');
@@ -25,5 +25,10 @@ extension StringExt on String {
     }).toList();
 
     return capitalizedWords.join(' ');
+  }
+
+  String get formattedAmount {
+    return  replaceAllMapped(
+        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},') ;
   }
 }

@@ -48,7 +48,7 @@ class ProductWithImage extends StatelessWidget {
             ProductWidget(
               itemName: product.name,
               itemDescription: product.description,
-              price: '${product.price}',
+              price: '${product.price.toInt()}'.formattedAmount,
               onAddToCart: () {
                 AppStateWidget.of(context).addToCart(product);
               },
@@ -59,6 +59,8 @@ class ProductWithImage extends StatelessWidget {
               isInCart: context.getAppState().cartItems.any(
                     (element) => element.product == product,
                   ),
+              addToFavourite: () {},
+              removeFromFavourite: () {},
             ),
           ],
         ),

@@ -76,11 +76,31 @@ final white20600 = GoogleFonts.montserrat(
   color: mainWhite,
   fontWeight: FontWeight.w600,
 );
+final white20600Poppins = GoogleFonts.poppins(
+  fontSize: 19,
+  color: mainWhite,
+  fontWeight: FontWeight.w600,
+);
 
 final white12500 = GoogleFonts.montserrat(
   fontSize: 12,
   color: mainWhite,
   fontWeight: FontWeight.w500,
+);
+final white11400 = GoogleFonts.montserrat(
+  fontSize: 11,
+  color: mainWhite,
+  fontWeight: FontWeight.w400,
+);
+final white11400Poppins = GoogleFonts.poppins(
+  fontSize: 11,
+  color: mainWhite,
+  fontWeight: FontWeight.w400,
+);
+final white11600Poppins = GoogleFonts.poppins(
+  fontSize: 11,
+  color: mainWhite,
+  fontWeight: FontWeight.w600,
 );
 final accent13500 = GoogleFonts.montserrat(
   fontSize: 13,
@@ -110,6 +130,16 @@ final black16600 = GoogleFonts.montserrat(
   color: mainBlack,
   fontWeight: FontWeight.w600,
   fontSize: 16,
+);
+final black12A80600 = GoogleFonts.montserrat(
+  color: mainBlackA80,
+  fontWeight: FontWeight.w600,
+  fontSize: 12,
+);
+final black14A80500 = GoogleFonts.montserrat(
+  color: mainBlackA60,
+  fontWeight: FontWeight.w500,
+  fontSize: 14,
 );
 final black16500 = GoogleFonts.montserrat(
   color: mainBlack,
