@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shop_bag_app/state/app_state.dart';
+import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
 
 import 'widgets/category_page_items.dart';
+import 'widgets/favorite_list_icon.dart';
 import 'widgets/height8.dart';
+import 'widgets/malltiverse_top_bar_icon.dart';
 import 'widgets/my_app_bar.dart';
 
 class ProductsListing extends StatefulWidget {
@@ -21,14 +24,30 @@ class _ProductsListingState extends State<ProductsListing>
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: MyAppBar(
-        leading: Image.asset(
-          'assets/images/Malltiverse Logo.png',
-          width: 100,
-        ),
+        leading: const MalltiverseTopBarIcon(),
         title: Text(
           'Product List',
           style: black19600,
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const FavoriteListIcon(
+              color: mainBlack,
+            ),
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.history_rounded,
+              color: mainBlack,
+              size: 20,
+            ),
+            onPressed: () {},
+          ),
+          const SizedBox(
+            width: 24,
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 24.0),

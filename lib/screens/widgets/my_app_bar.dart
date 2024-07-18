@@ -5,11 +5,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     required this.leading,
     required this.title,
+    this.actions = const [],
   });
 
   final Widget leading;
 
   final Widget? title;
+  final List<Widget> actions;
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +22,23 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           top: 10,
         ), //adjust the padding as you want
         child: SafeArea(
-          child: Row(
+          child: Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 24.0),
+                padding: const EdgeInsets.only(
+                  left: 24.0,
+                ),
                 child: leading,
               ),
-              const Spacer(),
-              title ?? const SizedBox(),
-              const Spacer(
-                flex: 5,
-              )
+              AppBar(
+                title: title,
+                elevation: 0,
+                centerTitle: true,
+                backgroundColor: Colors.transparent,
+                foregroundColor: Colors.transparent,
+                surfaceTintColor: Colors.transparent,
+                actions: actions,
+              ),
             ],
           ),
         ), //or row/any widget
