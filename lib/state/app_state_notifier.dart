@@ -1,60 +1,64 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_bag_app/data/api/api_client.dart';
 import 'package:shop_bag_app/data/api/result.dart';
 import 'package:shop_bag_app/data/model.dart/cart_item.dart';
+import 'package:shop_bag_app/data/model.dart/order_contact_details.dart';
+import 'package:shop_bag_app/data/model.dart/payment_details.dart';
+import 'package:shop_bag_app/data/model.dart/pre_order.dart';
 import 'package:shop_bag_app/data/model.dart/product.dart';
 import 'package:shop_bag_app/state/app_state.dart';
 
 class AppStateNotifier extends ChangeNotifier {
-  AppState _appState = AppState(allProducts: []);
-
-  AppState get appState => _appState;
+  AppState _appState = const AppState(allProducts: []);
 
   AppStateNotifier() {
     initializeData();
   }
+
+  AppState get appState => _appState;
 
   void updateState(AppState newState) {
     _appState = newState;
     notifyListeners();
   }
 
-  // Implement other state modification methods similarly
-
-  List<String> get getCategories =>
-      _appState.allProducts.map((e) => e.category).toSet().toList();
-
-  List<Product> getProductsForCategory(String category) {
-    return _appState.allProducts
-        .where((element) => element.category == category)
-        .toList();
+  void setPreOrder(PreOrder preOrder) {
+    _appState = _appState.copyWith(preOrder: preOrder);
+    notifyListeners();
   }
 
-  List<List<Product>> getProductsInPagesByCategory(String category) {
-    final categoryList = getProductsForCategory(category);
-    return splitProductsIntoSublists(categoryList, 2);
+  void clearPreOrder() {
+    _appState = _appState.copyWith(preOrder: null);
+    notifyListeners();
   }
 
-  List<List<Product>> splitProductsIntoSublists(
-      List<Product> products, int maxItemsPerList) {
-    List<List<Product>> result = [];
-    for (int i = 0; i < products.length; i += maxItemsPerList) {
-      result.add(products.sublist(
-          i,
-          i + maxItemsPerList > products.length
-              ? products.length
-              : i + maxItemsPerList));
-    }
-    return result;
+  void setContactDetails(OrderContactDetails contactDetails) {
+    _appState = _appState.copyWith(contactDetails: contactDetails);
+    notifyListeners();
   }
 
-  Map<String, List<List<Product>>> get getProductMapping {
-    final allCategories = getCategories;
-    final categoryMap = <String, List<List<Product>>>{};
-    for (final category in allCategories) {
-      categoryMap[category] = getProductsInPagesByCategory(category);
-    }
-    return categoryMap;
+  void clearContactDetails() {
+    _appState = _appState.copyWith(contactDetails: null);
+    notifyListeners();
+  }
+
+  void clearPreOrderData() {
+    updateState(_appState.copyWith(
+      cartItems: List.from(_appState.cartItems)..clear(),
+      shouldClear: true,
+    ));
+    notifyListeners();
+  }
+
+  void setPaymentDetails(PaymentDetails paymentDetails) {
+    _appState = _appState.copyWith(paymentDetails: paymentDetails);
+    notifyListeners();
+  }
+
+  void clearPaymentDetails() {
+    _appState = _appState.copyWith(paymentDetails: null);
+    notifyListeners();
   }
 
   void addToCart(Product item) {
@@ -65,7 +69,8 @@ class AppStateNotifier extends ChangeNotifier {
       final index = newData.indexWhere(
         (element) => element.product == item,
       );
-      newData[index].quantity = newData[index].quantity + 1;
+      newData[index] =
+          newData[index].copyWith(quantity: newData[index].quantity + 1);
     } else {
       newData.add(CartItem(product: item, quantity: 1));
     }
@@ -85,7 +90,8 @@ class AppStateNotifier extends ChangeNotifier {
           );
 
       if (newData[index].quantity > 1) {
-        --newData[index].quantity;
+        newData[index] =
+            newData[index].copyWith(quantity: newData[index].quantity - 1);
         _appState = _appState.copyWith(cartItems: newData);
       }
     } else {
@@ -137,8 +143,11 @@ class AppStateNotifier extends ChangeNotifier {
   }
 
   void setProducts(List<Product> products) {
-    _appState = _appState.copyWith(allProducts: products);
-    _appState = _appState.copyWith(productMapping: getProductMapping);
+    _appState = _appState.copyWith(
+      allProducts: products,
+      productMapping: getProductMapping(products),
+    );
+    notifyListeners();
   }
 
   void setError(String error) {
@@ -156,5 +165,33 @@ class AppStateNotifier extends ChangeNotifier {
   void clearIsLoading() {
     _appState = _appState.copyWith(isLoading: false);
     notifyListeners();
+  }
+
+  Map<String, List<List<Product>>> getProductMapping(List<Product> products) {
+    final allCategories = products.map((e) => e.category).toSet().toList();
+    final categoryMap = <String, List<List<Product>>>{};
+    for (final category in allCategories) {
+      final categoryList =
+          products.where((element) => element.category == category).toList();
+      final pages = splitProductsIntoSublists(categoryList, 2);
+      categoryMap[category] = pages;
+    }
+    return categoryMap;
+  }
+
+  List<List<Product>> splitProductsIntoSublists(
+      List<Product> products, int maxItemsPerList) {
+    List<List<Product>> result = [];
+    for (int i = 0; i < products.length; i += maxItemsPerList) {
+      result.add(
+        products.sublist(
+          i,
+          i + maxItemsPerList > products.length
+              ? products.length
+              : i + maxItemsPerList,
+        ),
+      );
+    }
+    return result;
   }
 }

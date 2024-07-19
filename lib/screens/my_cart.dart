@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_bag_app/data/model.dart/pre_order.dart';
 import 'package:shop_bag_app/screens/widgets/malltiverse_top_bar_icon.dart';
-import 'package:shop_bag_app/state/app_state_widget.dart';
+import 'package:shop_bag_app/state/app_state_notifier.dart';
 import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/extensions.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
@@ -66,11 +68,14 @@ class _MyCartState extends State<MyCart> with AutomaticKeepAliveClientMixin {
                         asset: localAsset,
                         quantity: '${data.quantity}',
                         itemTitle: itemTitle,
-                        onAddToCart: () =>
-                            AppStateWidget.of(context).addToCart(data.product),
-                        onDeleteFromCart: () => AppStateWidget.of(context)
+                        onAddToCart: () => (context)
+                            .read<AppStateNotifier>()
+                            .addToCart(data.product),
+                        onDeleteFromCart: () => (context)
+                            .read<AppStateNotifier>()
                             .deleteFromCart(data.product),
-                        onRemoveFromCart: () => AppStateWidget.of(context)
+                        onRemoveFromCart: () => (context)
+                            .read<AppStateNotifier>()
                             .removeFromCart(data.product),
                         price: '${data.product.price}',
                         description: data.product.description,
@@ -122,6 +127,20 @@ class _MyCartState extends State<MyCart> with AutomaticKeepAliveClientMixin {
                         ).then(
                           (value) {
                             if (value != null) {
+                              context.read<AppStateNotifier>().setPreOrder(
+                                    PreOrder(
+                                      subTotal: value.subTotal,
+                                      deliveryFee: value.deliveryFee,
+                                      discountAmount: value.discount,
+                                      totalAmount: value.totalAmount,
+                                      discountCode: value.discountCode,
+                                      items: context
+                                          .read<AppStateNotifier>()
+                                          .appState
+                                          .cartItems,
+                                      discountPercent: value.discountPercent,
+                                    ),
+                                  );
                               widget.gotCheckOut();
                             }
                           },

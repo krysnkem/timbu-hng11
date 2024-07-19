@@ -1,7 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:shop_bag_app/secrets/secret_constants.dart';
 import 'package:shop_bag_app/utils/extensions.dart';
 
-class Product {
+class Product extends Equatable {
   final String id;
   final String name;
   final String description;
@@ -11,7 +12,7 @@ class Product {
   final String category;
   final double price;
 
-  Product({
+  const Product({
     required this.id,
     required this.name,
     required this.description,
@@ -58,30 +59,50 @@ class Product {
     );
   }
 
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'isAvailable': isAvailable,
+      'imageUrl': imageUrl,
+      'rating': rating,
+      'category': category,
+      'price': price,
+    };
+  }
 
-    return other is Product &&
-        other.id == id &&
-        other.name == name &&
-        other.description == description &&
-        other.isAvailable == isAvailable &&
-        other.imageUrl == imageUrl &&
-        other.rating == rating &&
-        other.category == category &&
-        other.price == price;
+  Product copyWith({
+    String? id,
+    String? name,
+    String? description,
+    bool? isAvailable,
+    String? imageUrl,
+    String? rating,
+    String? category,
+    double? price,
+  }) {
+    return Product(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      isAvailable: isAvailable ?? this.isAvailable,
+      imageUrl: imageUrl ?? this.imageUrl,
+      rating: rating ?? this.rating,
+      category: category ?? this.category,
+      price: price ?? this.price,
+    );
   }
 
   @override
-  int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
-        description.hashCode ^
-        isAvailable.hashCode ^
-        imageUrl.hashCode ^
-        rating.hashCode ^
-        category.hashCode ^
-        price.hashCode;
-  }
+  List<Object?> get props => [
+        id,
+        name,
+        description,
+        isAvailable,
+        imageUrl,
+        rating,
+        category,
+        price,
+      ];
 }

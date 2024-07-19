@@ -1,28 +1,40 @@
-import 'package:shop_bag_app/data/model.dart/product.dart';
+import 'package:equatable/equatable.dart';
 
-class CartItem {
+import 'product.dart';
+
+class CartItem extends Equatable {
   final Product product;
-  int quantity;
+  final int quantity;
 
-  CartItem({
+  const CartItem({
     required this.product,
     required this.quantity,
   });
 
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
+  Map<String, dynamic> toJson() {
+    return {
+      'product': product.toJson(),
+      'quantity': quantity,
+    };
+  }
 
-    return other is CartItem &&
-        other.product == product &&
-        other.quantity == quantity;
+  factory CartItem.fromJson(Map<String, dynamic> json) {
+    return CartItem(
+      product: Product.fromJson(json['product']),
+      quantity: json['quantity'],
+    );
+  }
+
+  CartItem copyWith({
+    Product? product,
+    int? quantity,
+  }) {
+    return CartItem(
+      product: product ?? this.product,
+      quantity: quantity ?? this.quantity,
+    );
   }
 
   @override
-  int get hashCode => product.hashCode ^ quantity.hashCode;
-
-  @override
-  String toString() {
-    return 'CartItem: product $product, quantity $quantity';
-  }
+  List<Object?> get props => [product, quantity];
 }

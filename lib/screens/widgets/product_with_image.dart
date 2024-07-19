@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_bag_app/data/model.dart/product.dart';
 import 'package:shop_bag_app/screens/widgets/height4.dart';
 import 'package:shop_bag_app/screens/widgets/height8.dart';
 import 'package:shop_bag_app/screens/widgets/product_widget.dart';
-import 'package:shop_bag_app/state/app_state_widget.dart';
+import 'package:shop_bag_app/state/app_state_notifier.dart';
+import 'package:shop_bag_app/state/favouties_state_notifier.dart';
 import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/extensions.dart';
 
@@ -50,17 +52,24 @@ class ProductWithImage extends StatelessWidget {
               itemDescription: product.description,
               price: '${product.price.toInt()}'.formattedAmount,
               onAddToCart: () {
-                AppStateWidget.of(context).addToCart(product);
+                context.read<AppStateNotifier>().addToCart(product);
               },
               rating: int.parse(product.rating),
               removeFromCart: () {
-                AppStateWidget.of(context).deleteFromCart(product);
+                context.read<AppStateNotifier>().deleteFromCart(product);
               },
               isInCart: context.cartItems.any(
                 (element) => element.product == product,
               ),
-              addToFavourite: () {},
-              removeFromFavourite: () {},
+              addToFavourite: () {
+                context.read<FavoritesStateNotifier>().addToFavorites(product);
+              },
+              isFavourite: context.allFavourites.contains(product),
+              removeFromFavourite: () {
+                context
+                    .read<FavoritesStateNotifier>()
+                    .removeFromFavorites(product);
+              },
             ),
           ],
         ),

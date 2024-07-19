@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_bag_app/screens/widgets/app_circular_progress_indicator.dart';
 import 'package:shop_bag_app/screens/widgets/height8.dart';
 import 'package:shop_bag_app/screens/widgets/shop_with_red_bg.dart';
 import 'package:shop_bag_app/utils/extensions.dart';
@@ -62,7 +63,7 @@ class CartItemWidget extends StatelessWidget {
                           imageUrl: asset,
                           fit: BoxFit.cover,
                           placeholder: (context, url) => const Center(
-                            child: CircularProgressIndicator(),
+                            child: AppCircularProgressIndicator(),
                           ),
                         );
                       }

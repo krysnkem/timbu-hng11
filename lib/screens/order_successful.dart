@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_bag_app/screens/payment_flow.dart';
-import 'package:shop_bag_app/state/app_state.dart';
-import 'package:shop_bag_app/state/app_state_widget.dart';
+import 'package:shop_bag_app/state/app_state_notifier.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
 
-import '../state/old_app_state_widget.dart';
 import 'widgets/primary_button.dart';
 
 class OrderSuccessfulScreen extends StatelessWidget {
@@ -48,7 +47,7 @@ class OrderSuccessfulScreen extends StatelessWidget {
               PrimaryButton(
                 label: 'CONTINUE SHOPPING',
                 onPressed: () {
-                  AppStateWidget.of(context).emptyCart();
+                  context.read<AppStateNotifier>().emptyCart();
 
                   Navigator.of(context).popUntil(
                     (route) => route.settings.name == checkout,

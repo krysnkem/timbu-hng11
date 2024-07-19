@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/BottomNavBar.ttf
 ///
-/// 
+///
 ///
 import 'package:flutter/widgets.dart';
 
@@ -21,7 +21,10 @@ class BottomNavBar {
   static const _kFontFam = 'BottomNavBar';
   static const String? _kFontPkg = null;
 
-  static const IconData home_2 = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData shopping_cart_2 = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData shop_cart_arrow = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData home_2 =
+      IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData shopping_cart_2 =
+      IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData shop_cart_arrow =
+      IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }
