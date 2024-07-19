@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shop_bag_app/screens/home.dart';
-import 'package:shop_bag_app/state/app_state.dart';
+import 'package:shop_bag_app/state/app_state_widget.dart';
 import 'package:shop_bag_app/utils/colors.dart';
 
 void main() {
@@ -13,7 +13,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return AppStateWidget(
       child: MaterialApp(
         theme: ThemeData.from(

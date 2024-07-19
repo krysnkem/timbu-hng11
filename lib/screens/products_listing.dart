@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shop_bag_app/state/app_state.dart';
+import 'package:shop_bag_app/screens/home_flow.dart';
+import 'package:shop_bag_app/state/app_state_model.dart';
+import 'package:shop_bag_app/state/app_state_widget.dart';
 import 'package:shop_bag_app/utils/colors.dart';
+import 'package:shop_bag_app/utils/extensions.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
 
 import 'widgets/category_page_items.dart';
@@ -21,6 +24,9 @@ class _ProductsListingState extends State<ProductsListing>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    AppStateModel.of(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: MyAppBar(
@@ -31,7 +37,9 @@ class _ProductsListingState extends State<ProductsListing>
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(wishListOrFavourites);
+            },
             icon: const FavoriteListIcon(
               color: mainBlack,
             ),
@@ -42,7 +50,9 @@ class _ProductsListingState extends State<ProductsListing>
               color: mainBlack,
               size: 20,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(ordersHistory);
+            },
           ),
           const SizedBox(
             width: 24,
@@ -52,9 +62,7 @@ class _ProductsListingState extends State<ProductsListing>
       body: Padding(
         padding: const EdgeInsets.only(top: 24.0),
         child: Builder(builder: (context) {
-          final appState = AppStateScope.of(context);
-
-          if (!appState.isLoading && appState.error != null) {
+          if (!context.isLoading && context.error != null) {
             return RefreshIndicator(
               onRefresh: () async =>
                   AppStateWidget.of(context).initializeData(),
@@ -65,7 +73,7 @@ class _ProductsListingState extends State<ProductsListing>
                   ),
                   Center(
                     child: Text(
-                      '${appState.error}',
+                      '${context.error}',
                       style: black24500,
                     ),
                   )
@@ -74,7 +82,7 @@ class _ProductsListingState extends State<ProductsListing>
             );
           }
 
-          if (appState.isLoading) {
+          if (context.isLoading) {
             return RefreshIndicator(
               onRefresh: () async =>
                   AppStateWidget.of(context).initializeData(),
@@ -125,13 +133,11 @@ class _ProductsListingState extends State<ProductsListing>
                     ],
                   ),
                 ),
-                
-                
                 const SizedBox(
                   height: 44,
                 ),
                 Builder(builder: (context) {
-                  final shopingList = appState.allProducts;
+                  final shopingList = context.allProducts;
 
                   if (shopingList.isEmpty) {
                     return RefreshIndicator(
@@ -156,17 +162,18 @@ class _ProductsListingState extends State<ProductsListing>
                     onRefresh: () async =>
                         AppStateWidget.of(context).initializeData(),
                     child: ListView.builder(
-                      itemCount: appState.productMapping.keys.length,
+                      itemCount: context.productsToCategoryMapping.keys.length,
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        final key =
-                            appState.productMapping.keys.toList()[index];
+                        final key = context.productsToCategoryMapping.keys
+                            .toList()[index];
 
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 60.0),
                           child: CategoryPageItems(
-                            categoryItems: appState.productMapping[key]!,
+                            categoryItems:
+                                context.productsToCategoryMapping[key]!,
                             categoryName: key,
                           ),
                         );

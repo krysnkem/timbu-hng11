@@ -58,4 +58,4 @@ final nestedRouteBuiilders = {
 
 const productListing = 'home/product-listing';
 const ordersHistory = 'home/orders-history';
-const wishListOrFavourites = 'payment-flow/wishlist-or-favourites';
+const wishListOrFavourites = 'home/wishlist-or-favourites';

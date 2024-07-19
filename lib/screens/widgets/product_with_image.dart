@@ -4,7 +4,7 @@ import 'package:shop_bag_app/data/model.dart/product.dart';
 import 'package:shop_bag_app/screens/widgets/height4.dart';
 import 'package:shop_bag_app/screens/widgets/height8.dart';
 import 'package:shop_bag_app/screens/widgets/product_widget.dart';
-import 'package:shop_bag_app/state/app_state.dart';
+import 'package:shop_bag_app/state/app_state_widget.dart';
 import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/extensions.dart';
 
@@ -56,9 +56,9 @@ class ProductWithImage extends StatelessWidget {
               removeFromCart: () {
                 AppStateWidget.of(context).deleteFromCart(product);
               },
-              isInCart: context.getAppState().cartItems.any(
-                    (element) => element.product == product,
-                  ),
+              isInCart: context.cartItems.any(
+                (element) => element.product == product,
+              ),
               addToFavourite: () {},
               removeFromFavourite: () {},
             ),

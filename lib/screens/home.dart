@@ -38,10 +38,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
     BackButtonInterceptor.add(myInterceptor,
         name: widget.toString(), context: context);
 
-    precacheImage(const AssetImage('assets/images/Card.png'), context);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        precacheImage(const AssetImage('assets/images/Card.png'), context);
+      },
+    );
   }
 
   @override
@@ -130,16 +135,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 NavigationDestination(
                   icon: Badge.count(
-                    isLabelVisible: context.getAppState().cartItems.isNotEmpty,
-                    count: context.getAppState().cartItems.length,
+                    isLabelVisible: context.cartItems.isNotEmpty,
+                    count: context.cartItems.length,
                     child: const Icon(
                       BottomNavBar.shopping_cart_2,
                       color: mainWhite,
                     ),
                   ),
                   selectedIcon: Badge.count(
-                    isLabelVisible: context.getAppState().cartItems.isNotEmpty,
-                    count: context.getAppState().cartItems.length,
+                    isLabelVisible: context.cartItems.isNotEmpty,
+                    count: context.cartItems.length,
                     textColor: Colors.white,
                     child: const Icon(
                       BottomNavBar.shopping_cart_2,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_bag_app/screens/widgets/malltiverse_top_bar_icon.dart';
-import 'package:shop_bag_app/state/app_state.dart';
+import 'package:shop_bag_app/state/app_state_widget.dart';
 import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/extensions.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
@@ -46,7 +46,7 @@ class _MyCartState extends State<MyCart> with AutomaticKeepAliveClientMixin {
             children: [
               Expanded(
                 child: Builder(builder: (context) {
-                  final cartList = AppStateScope.of(context).cartItems;
+                  final cartList = context.cartItems;
                   if (cartList.isEmpty) {
                     return Center(
                       child: Text(
@@ -80,7 +80,7 @@ class _MyCartState extends State<MyCart> with AutomaticKeepAliveClientMixin {
                 }),
               ),
               Visibility(
-                visible: AppStateScope.of(context).cartItems.isNotEmpty,
+                visible: context.cartItems.isNotEmpty,
                 child: Column(
                   children: [
                     Builder(
@@ -146,7 +146,7 @@ class _MyCartState extends State<MyCart> with AutomaticKeepAliveClientMixin {
   }
 
   num getTotalCost(BuildContext context) {
-    return AppStateScope.of(context).cartItems.fold(
+    return context.cartItems.fold(
       0,
       (previousValue, element) {
         return previousValue + (element.product.price * element.quantity);
