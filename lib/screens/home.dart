@@ -1,8 +1,8 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
+import 'package:shop_bag_app/screens/home_flow.dart';
 import 'package:shop_bag_app/screens/my_cart.dart';
 import 'package:shop_bag_app/screens/payment_flow.dart';
-import 'package:shop_bag_app/screens/products_listing.dart';
 import 'package:shop_bag_app/utils/bottom_nav_bar_icons.dart';
 import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/extensions.dart';
@@ -20,13 +20,18 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isAnimating = false;
 
   bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
-    if (_currentIndex != 2) {
+    if (_currentIndex != 2 && _currentIndex != 0) {
       return false;
     }
-    if (paymentFlowKey.currentState!.canPop()) {
-      paymentFlowKey.currentState!.pop();
+    if (_currentIndex == 0 && homeFlowNavKey.currentState!.canPop()) {
+      homeFlowNavKey.currentState!.pop();
       return true;
     }
+    if (_currentIndex == 2 && paymentFlowNavKey.currentState!.canPop()) {
+      paymentFlowNavKey.currentState!.pop();
+      return true;
+    }
+
     return false;
   }
 
@@ -82,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
         controller: _pageController,
         onPageChanged: onSwipePage,
         children: [
-          const ProductsListing(),
+          const HomeFlow(),
           MyCart(
             showProductListing: () {
               onChangeDestination(0);

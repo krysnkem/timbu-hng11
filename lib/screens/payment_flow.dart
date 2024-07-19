@@ -14,7 +14,7 @@ class PaymentFlow extends StatefulWidget {
   State<PaymentFlow> createState() => _PaymentFlowState();
 }
 
-final paymentFlowKey = GlobalKey<NavigatorState>();
+final paymentFlowNavKey = GlobalKey<NavigatorState>();
 
 class _PaymentFlowState extends State<PaymentFlow>
     with AutomaticKeepAliveClientMixin {
@@ -22,7 +22,7 @@ class _PaymentFlowState extends State<PaymentFlow>
   Widget build(BuildContext context) {
     super.build(context);
     return Navigator(
-      key: paymentFlowKey,
+      key: paymentFlowNavKey,
       initialRoute: checkout,
       onGenerateRoute: (settings) {
         WidgetBuilder builder;
