@@ -1,3 +1,4 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_bag_app/screens/my_cart.dart';
 import 'package:shop_bag_app/screens/payment_flow.dart';
@@ -18,9 +19,31 @@ class _HomeScreenState extends State<HomeScreen> {
   final PageController _pageController = PageController();
   bool _isAnimating = false;
 
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    if (_currentIndex != 2) {
+      return false;
+    }
+    if (paymentFlowKey.currentState!.canPop()) {
+      paymentFlowKey.currentState!.pop();
+      return true;
+    }
+    return false;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(myInterceptor,
+        name: widget.toString(), context: context);
+
+    precacheImage(const AssetImage('assets/images/Card.png'), context);
+  }
+
   @override
   void dispose() {
     _pageController.dispose();
+    BackButtonInterceptor.remove(myInterceptor);
+
     super.dispose();
   }
 

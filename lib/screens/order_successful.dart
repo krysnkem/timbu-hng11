@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_bag_app/screens/payment_flow.dart';
 import 'package:shop_bag_app/state/app_state.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
 
@@ -47,7 +48,9 @@ class OrderSuccessfulScreen extends StatelessWidget {
                 onPressed: () {
                   AppStateWidget.of(context).emptyCart();
 
-                  Navigator.of(context).pop();
+                  Navigator.of(context).popUntil(
+                    (route) => route.settings.name == checkout,
+                  );
                 },
               ),
               const SizedBox(

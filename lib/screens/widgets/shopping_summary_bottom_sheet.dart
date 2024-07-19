@@ -4,6 +4,7 @@ import 'package:shop_bag_app/screens/widgets/primary_button.dart';
 import 'package:shop_bag_app/screens/widgets/title_and_amount.dart';
 import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/extensions.dart';
+import 'package:shop_bag_app/utils/formtters/discount_code_formatter.dart';
 import 'package:shop_bag_app/utils/random_generator.dart';
 import 'package:shop_bag_app/utils/text_styles.dart';
 
@@ -47,6 +48,7 @@ class _ShoppingSummaryBottomSheetState
 
   @override
   void dispose() {
+    _controller.removeListener(listenToDiscountCode);
     _controller.dispose();
     super.dispose();
   }
@@ -112,6 +114,9 @@ class _ShoppingSummaryBottomSheetState
                     Expanded(
                       child: TextField(
                         controller: _controller,
+                        inputFormatters: [
+                          DiscountCodeInputFormatter(),
+                        ],
                         decoration: InputDecoration(
                           contentPadding:
                               const EdgeInsets.symmetric(horizontal: 10),
