@@ -10,13 +10,18 @@ This is a simple shopping app built using Flutter, showcasing a list of products
 - Dynamic list of products/items from timbu business api displayed under the Products tab.
 - Checkout tab displaying the products added for checkout.
 - Functionality to add and remove items from the checkout cart.
-- Button to navigate to an Order Successful screen from the Checkout screen.
+- Persisted cart items list
+- Add to favourites
+- Persisted favourites list
 
 ## Screenshots
 
 ![Products Screen](showcase/products_screen.png)
 ![Checkout Screen](showcase/checkout_screen.png)
 ![Order Successful Screen](showcase/order_successful_screen.png)
+![Favourites](showcase/favourites.png)
+![Order listing](showcase/order_listing.png)
+![Order detail](showcase/order_detail.png)
 
 ## Getting Started
 
@@ -50,8 +55,9 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Test App
 
-You can try out the app [here](https://appetize.io/app/b_wqm52al643ta75cxe2gtknntbi) on Appetize.io.
+You can try out the app [here](https://appetize.io/app/b_4zcyavvczaomtnwdrmrr2gphyq) on Appetize.io.
 
 To add to cart
 - Click on add to cart on each item.
 - See all cart items by clicking on the cart icon at the second tab.
+- Add favourites by clicking on the heart icon on each item
