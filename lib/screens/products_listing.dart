@@ -66,10 +66,10 @@ class _ProductsListingState extends State<ProductsListing>
       body: Padding(
         padding: const EdgeInsets.only(top: 24.0),
         child: Builder(builder: (context) {
-          if (!context.isLoading && context.error != null) {
+          if (!context.isLoadingAllProducts && context.error != null) {
             return RefreshIndicator(
               onRefresh: () async =>
-                  (context).read<AppStateNotifier>().initializeData(),
+                  (context).read<AppStateNotifier>().initializeProducts(),
               child: ListView(
                 children: [
                   SizedBox(
@@ -86,10 +86,10 @@ class _ProductsListingState extends State<ProductsListing>
             );
           }
 
-          if (context.isLoading) {
+          if (context.isLoadingAllProducts) {
             return RefreshIndicator(
               onRefresh: () async =>
-                  (context).read<AppStateNotifier>().initializeData(),
+                  (context).read<AppStateNotifier>().initializeProducts(),
               child: ListView(
                 children: [
                   SizedBox(
@@ -101,7 +101,11 @@ class _ProductsListingState extends State<ProductsListing>
             );
           }
 
-          return const ProductListingWidget();
+          return RefreshIndicator(
+            onRefresh: () async =>
+                (context).read<AppStateNotifier>().initializeProducts(),
+            child: const ProductListingWidget(),
+          );
         }),
       ),
     );

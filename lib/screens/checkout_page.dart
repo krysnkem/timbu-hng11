@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_bag_app/data/model.dart/delivery_method.dart';
-import 'package:shop_bag_app/data/model.dart/order_contact_details.dart';
+import 'package:shop_bag_app/data/model/delivery_method/delivery_method.dart';
+import 'package:shop_bag_app/data/model/order_contact_details/order_contact_details.dart';
 import 'package:shop_bag_app/screens/payment_flow.dart';
 import 'package:shop_bag_app/screens/widgets/malltiverse_icon_widget.dart';
 import 'package:shop_bag_app/screens/widgets/primary_button.dart';

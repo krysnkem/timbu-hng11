@@ -5,7 +5,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:shop_bag_app/data/api/result.dart';
-import 'package:shop_bag_app/data/model.dart/product.dart';
+import 'package:shop_bag_app/data/model/product/product.dart';
 import 'package:shop_bag_app/secrets/secret_constants.dart';
 
 class ApiClient {

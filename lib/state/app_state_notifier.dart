@@ -1,19 +1,22 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_bag_app/data/api/api_client.dart';
 import 'package:shop_bag_app/data/api/result.dart';
-import 'package:shop_bag_app/data/model.dart/cart_item.dart';
-import 'package:shop_bag_app/data/model.dart/order_contact_details.dart';
-import 'package:shop_bag_app/data/model.dart/payment_details.dart';
-import 'package:shop_bag_app/data/model.dart/pre_order.dart';
-import 'package:shop_bag_app/data/model.dart/product.dart';
+import 'package:shop_bag_app/data/db/cart_db_client.dart';
+import 'package:shop_bag_app/data/model/cart_item/cart_item.dart';
+import 'package:shop_bag_app/data/model/order_contact_details/order_contact_details.dart';
+import 'package:shop_bag_app/data/model/payment_detail/payment_details.dart';
+import 'package:shop_bag_app/data/model/pre_order/pre_order.dart';
+import 'package:shop_bag_app/data/model/product/product.dart';
 import 'package:shop_bag_app/state/app_state.dart';
 
 class AppStateNotifier extends ChangeNotifier {
   AppState _appState = const AppState(allProducts: []);
 
   AppStateNotifier() {
-    initializeData();
+    initializeAllData();
   }
 
   AppState get appState => _appState;
@@ -63,24 +66,34 @@ class AppStateNotifier extends ChangeNotifier {
 
   void addToCart(Product item) {
     final newData = List<CartItem>.from(_appState.cartItems);
+    CartItem cartItem;
     if (newData.any(
       (element) => element.product == item,
     )) {
       final index = newData.indexWhere(
         (element) => element.product == item,
       );
-      newData[index] =
-          newData[index].copyWith(quantity: newData[index].quantity + 1);
+
+      cartItem = newData[index].copyWith(quantity: newData[index].quantity + 1);
+
+      newData[index] = cartItem;
     } else {
-      newData.add(CartItem(product: item, quantity: 1));
+      cartItem = CartItem(product: item, quantity: 1);
+      newData.add(cartItem);
     }
 
     _appState = _appState.copyWith(cartItems: newData);
+    CartDbClient.addToCart(cartItem).then(
+      (value) {
+        _logDbCart();
+      },
+    );
     notifyListeners();
   }
 
   void removeFromCart(Product item) {
     final newData = List<CartItem>.from(_appState.cartItems);
+    CartItem cartItem;
 
     if (newData.any(
       (element) => element.product == item,
@@ -90,13 +103,26 @@ class AppStateNotifier extends ChangeNotifier {
           );
 
       if (newData[index].quantity > 1) {
-        newData[index] =
+        cartItem =
             newData[index].copyWith(quantity: newData[index].quantity - 1);
+        newData[index] = cartItem;
+
         _appState = _appState.copyWith(cartItems: newData);
+
+        CartDbClient.addToCart(cartItem).then(
+          (value) {
+            _logDbCart();
+          },
+        );
       }
     } else {
       _appState = _appState.copyWith(
         cartItems: newData..remove(item),
+      );
+      CartDbClient.deleteFromCart(item.id).then(
+        (value) {
+          _logDbCart();
+        },
       );
     }
     notifyListeners();
@@ -112,10 +138,15 @@ class AppStateNotifier extends ChangeNotifier {
       cartItems: newData,
     );
 
+    CartDbClient.deleteFromCart(item.id).then(
+      (value) {
+        _logDbCart();
+      },
+    );
     notifyListeners();
   }
 
-  void emptyCart() {
+  Future<void> emptyCart() async {
     final newData = List<CartItem>.from(_appState.cartItems);
 
     newData.clear();
@@ -123,23 +154,54 @@ class AppStateNotifier extends ChangeNotifier {
       cartItems: newData,
     );
     notifyListeners();
+
+    await CartDbClient.deleteAllFromCart().then(
+      (value) {
+        _logDbCart();
+      },
+    );
+  }
+
+  void _logDbCart() async {
+    final itemsInDb = await CartDbClient.getAllItems();
+    log('### ITEMS IN DB ### $itemsInDb');
   }
 
   final apiClient = ApiClient();
 
-  void initializeData() async {
+  void initializeAllData() async {
+    await Future.wait([
+      loadCartItems(),
+      loadProductsFromApi(),
+    ]);
+  }
+
+  void initializeProducts() async {
+    await loadProductsFromApi();
+  }
+
+  Future<void> loadCartItems() async {
+    log('GETTING STORED CART');
+    final items = await CartDbClient.getAllItems();
+    log('STORED CART $items');
+
+    if (items.isNotEmpty) {
+      setCartItems(items);
+    }
+  }
+
+  Future<void> loadProductsFromApi() async {
     clearError();
-    setIsLoading();
+    setIsLoadingProducts();
     final result = await apiClient.getListOfProducts();
 
-    clearIsLoading();
+    clearIsLoadingProducts();
 
     if (result is Success) {
       setProducts(List<Product>.from(result.data as List));
     } else {
       setError((result as Failure).message);
     }
-    notifyListeners();
   }
 
   void setProducts(List<Product> products) {
@@ -150,20 +212,37 @@ class AppStateNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setCartItems(List<CartItem> cartItems) {
+    _appState = _appState.copyWith(
+      cartItems: cartItems,
+    );
+    notifyListeners();
+  }
+
   void setError(String error) {
     _appState = _appState.copyWith(error: error);
+    notifyListeners();
   }
 
   void clearError() {
     _appState = _appState.copyWith(error: null);
   }
 
-  void setIsLoading() {
-    _appState = _appState.copyWith(isLoading: true);
+  void setIsLoadingProducts() {
+    _appState = _appState.copyWith(isLoadingAllProducts: true);
   }
 
-  void clearIsLoading() {
-    _appState = _appState.copyWith(isLoading: false);
+  void clearIsLoadingProducts() {
+    _appState = _appState.copyWith(isLoadingAllProducts: false);
+    notifyListeners();
+  }
+
+  void setIsLoadingCart() {
+    _appState = _appState.copyWith(isLoadingCartItems: true);
+  }
+
+  void clearIsLoadingCart() {
+    _appState = _appState.copyWith(isLoadingCartItems: false);
     notifyListeners();
   }
 

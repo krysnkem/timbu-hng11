@@ -1,20 +1,37 @@
 import 'package:equatable/equatable.dart';
-import 'package:shop_bag_app/data/model.dart/payment_details.dart';
-import 'cart_item.dart';
-import 'order_contact_details.dart';
+import 'package:hive/hive.dart';
+import 'package:shop_bag_app/data/model/payment_detail/payment_details.dart';
 
+import '../cart_item/cart_item.dart';
+import '../order_contact_details/order_contact_details.dart';
+
+part 'order_item.g.dart';
+
+@HiveType(typeId: 8)
 class OrderItem extends Equatable {
+  @HiveField(0)
   final String id;
+  @HiveField(1)
   final String orderRef;
+  @HiveField(2)
   final DateTime date;
+  @HiveField(3)
   final int subTotal;
+  @HiveField(4)
   final int deliveryFee;
+  @HiveField(5)
   final int discountAmount;
+  @HiveField(6)
   final int discountPercent;
+  @HiveField(7)
   final int totalAmount;
+  @HiveField(8)
   final String discountCode;
+  @HiveField(9)
   final List<CartItem> items;
+  @HiveField(10)
   final OrderContactDetails contactDetails;
+  @HiveField(11)
   final PaymentDetails paymentDetails;
 
   const OrderItem({

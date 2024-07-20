@@ -1,16 +1,17 @@
 import 'package:equatable/equatable.dart';
-import 'package:shop_bag_app/data/model.dart/cart_item.dart';
-import 'package:shop_bag_app/data/model.dart/order_contact_details.dart';
-import 'package:shop_bag_app/data/model.dart/payment_details.dart';
-import 'package:shop_bag_app/data/model.dart/pre_order.dart';
-import 'package:shop_bag_app/data/model.dart/product.dart';
+import 'package:shop_bag_app/data/model/cart_item/cart_item.dart';
+import 'package:shop_bag_app/data/model/order_contact_details/order_contact_details.dart';
+import 'package:shop_bag_app/data/model/payment_detail/payment_details.dart';
+import 'package:shop_bag_app/data/model/pre_order/pre_order.dart';
+import 'package:shop_bag_app/data/model/product/product.dart';
 
 class AppState extends Equatable {
   const AppState({
     required this.allProducts,
     this.cartItems = const [],
     this.productMapping = const {},
-    this.isLoading = false,
+    this.isLoadingAllProducts = false,
+    this.isLoadingCartItems = false,
     this.error,
     this.preOrder,
     this.contactDetails,
@@ -20,7 +21,8 @@ class AppState extends Equatable {
   final List<Product> allProducts;
   final Map<String, List<List<Product>>> productMapping;
   final List<CartItem> cartItems;
-  final bool isLoading;
+  final bool isLoadingAllProducts;
+  final bool isLoadingCartItems;
   final String? error;
   final PreOrder? preOrder;
   final OrderContactDetails? contactDetails;
@@ -29,23 +31,27 @@ class AppState extends Equatable {
   AppState copyWith({
     List<Product>? allProducts,
     List<CartItem>? cartItems,
-    bool? isLoading,
+    bool? isLoadingAllProducts,
+    bool? isLoadingCartItems,
     Map<String, List<List<Product>>>? productMapping,
     String? error,
     PreOrder? preOrder,
     OrderContactDetails? contactDetails,
     PaymentDetails? paymentDetails,
-    bool shouldClear= false,
+    bool shouldClear = false,
   }) {
     return AppState(
       allProducts: allProducts ?? this.allProducts,
       cartItems: cartItems ?? this.cartItems,
-      isLoading: isLoading ?? this.isLoading,
+      isLoadingAllProducts: isLoadingAllProducts ?? this.isLoadingAllProducts,
       productMapping: productMapping ?? this.productMapping,
       error: error ?? this.error,
       preOrder: shouldClear ? null : preOrder ?? this.preOrder,
-      contactDetails: shouldClear ? null: contactDetails ?? this.contactDetails,
-      paymentDetails: shouldClear ? null: paymentDetails ?? this.paymentDetails,
+      contactDetails:
+          shouldClear ? null : contactDetails ?? this.contactDetails,
+      paymentDetails:
+          shouldClear ? null : paymentDetails ?? this.paymentDetails,
+      isLoadingCartItems: isLoadingCartItems ?? this.isLoadingCartItems,
     );
   }
 
@@ -54,7 +60,7 @@ class AppState extends Equatable {
         allProducts,
         cartItems,
         productMapping,
-        isLoading,
+        isLoadingAllProducts,
         error,
         preOrder,
         contactDetails,

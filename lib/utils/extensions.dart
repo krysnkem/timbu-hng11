@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_bag_app/data/model.dart/cart_item.dart';
-import 'package:shop_bag_app/data/model.dart/order_item.dart';
-import 'package:shop_bag_app/data/model.dart/pre_order.dart';
-import 'package:shop_bag_app/data/model.dart/product.dart';
+import 'package:shop_bag_app/data/model/cart_item/cart_item.dart';
+import 'package:shop_bag_app/data/model/order_item/order_item.dart';
+import 'package:shop_bag_app/data/model/pre_order/pre_order.dart';
+import 'package:shop_bag_app/data/model/product/product.dart';
 import 'package:shop_bag_app/state/app_state_notifier.dart';
 import 'package:shop_bag_app/state/favouties_state_notifier.dart';
 import 'package:shop_bag_app/state/order_state_notifier.dart';
@@ -15,9 +15,13 @@ extension ContextExt on BuildContext {
   List<CartItem> get cartItems => select<AppStateNotifier, List<CartItem>>(
         (value) => value.appState.cartItems,
       );
-  bool get isLoading => select<AppStateNotifier, bool>(
-        (value) => value.appState.isLoading,
+  bool get isLoadingAllProducts => select<AppStateNotifier, bool>(
+        (value) => value.appState.isLoadingAllProducts,
       );
+  bool get isLoadingCartItems => select<AppStateNotifier, bool>(
+        (value) => value.appState.isLoadingCartItems,
+      );
+
   List<Product> get allProducts => select<AppStateNotifier, List<Product>>(
         (value) => value.appState.allProducts,
       );
@@ -45,6 +49,10 @@ extension ContextExt on BuildContext {
   List<Product> get allFavourites =>
       select<FavoritesStateNotifier, List<Product>>(
         (value) => value.favoritesState.favorites,
+      );
+
+  bool get isLoadingFavourites => select<FavoritesStateNotifier, bool>(
+        (value) => value.favoritesState.isLoadingFavourites,
       );
 }
 
@@ -79,6 +87,3 @@ extension StringExt on String {
   bool get isValidMonth => validateMonth(this);
   bool get isValidYear => verifyExpiryYear(this);
 }
-
-
-

@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:shop_bag_app/screens/favourites.dart';
+import 'package:shop_bag_app/screens/favourites_page.dart';
 import 'package:shop_bag_app/screens/order_detail.dart';
 import 'package:shop_bag_app/screens/orders_history.dart';
 import 'package:shop_bag_app/screens/products_listing.dart';
@@ -53,7 +53,7 @@ final nestedRouteBuiilders = <String, WidgetBuilder>{
     BuildContext context,
   ) =>
       const OrdersHistory(),
-  wishListOrFavourites: (context) => const Favourites(),
+  wishListOrFavourites: (context) => const FavouritesPage(),
   orderDetail: (context) => const OrderDetailPage(),
 };
 

@@ -1,15 +1,27 @@
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 import 'package:shop_bag_app/secrets/secret_constants.dart';
 import 'package:shop_bag_app/utils/extensions.dart';
 
+part 'product.g.dart';
+
+@HiveType(typeId: 1)
 class Product extends Equatable {
+  @HiveField(0)
   final String id;
+  @HiveField(1)
   final String name;
+  @HiveField(2)
   final String description;
+  @HiveField(3)
   final bool isAvailable;
+  @HiveField(4)
   final String imageUrl;
+  @HiveField(5)
   final String rating;
+  @HiveField(6)
   final String category;
+  @HiveField(7)
   final double price;
 
   const Product({
@@ -92,6 +104,11 @@ class Product extends Equatable {
       category: category ?? this.category,
       price: price ?? this.price,
     );
+  }
+
+  @override
+  String toString() {
+    return '${toJson()}';
   }
 
   @override

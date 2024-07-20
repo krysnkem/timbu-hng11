@@ -93,7 +93,7 @@ class _ProductListingWidgetState extends State<ProductListingWidget>
               if (shopingList.isEmpty) {
                 return RefreshIndicator(
                   onRefresh: () async =>
-                      (context).read<AppStateNotifier>().initializeData(),
+                      (context).read<AppStateNotifier>().initializeProducts(),
                   child: ListView(
                     children: [
                       SizedBox(
@@ -111,7 +111,7 @@ class _ProductListingWidgetState extends State<ProductListingWidget>
               }
               return RefreshIndicator(
                 onRefresh: () async =>
-                    (context).read<AppStateNotifier>().initializeData(),
+                    (context).read<AppStateNotifier>().initializeProducts(),
                 child: ListView.builder(
                   itemCount: context.productsToCategoryMapping.keys.length,
                   physics: const NeverScrollableScrollPhysics(),

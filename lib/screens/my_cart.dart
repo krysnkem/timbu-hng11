@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_bag_app/data/model.dart/pre_order.dart';
+import 'package:shop_bag_app/data/model/pre_order/pre_order.dart';
+import 'package:shop_bag_app/screens/widgets/app_circular_progress_indicator.dart';
 import 'package:shop_bag_app/screens/widgets/malltiverse_icon_widget.dart';
 import 'package:shop_bag_app/state/app_state_notifier.dart';
 import 'package:shop_bag_app/utils/colors.dart';
@@ -44,121 +45,141 @@ class _MyCartState extends State<MyCart> with AutomaticKeepAliveClientMixin {
         color: mainWhite,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            children: [
-              Expanded(
-                child: Builder(builder: (context) {
-                  final cartList = context.cartItems;
-                  if (cartList.isEmpty) {
-                    return Center(
-                      child: Text(
-                        'No Item in Cart',
-                        style: black24500,
-                      ),
-                    );
-                  }
-                  return ListView.builder(
-                    itemCount: cartList.length,
-                    itemBuilder: (context, index) {
-                      final data = cartList[index];
-                      var localAsset = data.product.imageUrl;
-                      final itemTitle = data.product.name;
-
-                      return CartItemWidget(
-                        asset: localAsset,
-                        quantity: '${data.quantity}',
-                        itemTitle: itemTitle,
-                        onAddToCart: () => (context)
-                            .read<AppStateNotifier>()
-                            .addToCart(data.product),
-                        onDeleteFromCart: () => (context)
-                            .read<AppStateNotifier>()
-                            .deleteFromCart(data.product),
-                        onRemoveFromCart: () => (context)
-                            .read<AppStateNotifier>()
-                            .removeFromCart(data.product),
-                        price: '${data.product.price}',
-                        description: data.product.description,
-                      );
-                    },
-                  );
-                }),
-              ),
-              Visibility(
-                visible: context.cartItems.isNotEmpty,
-                child: Column(
+          child: Builder(builder: (context) {
+            if (context.isLoadingCartItems) {
+              return RefreshIndicator(
+                onRefresh: () async =>
+                    (context).read<AppStateNotifier>().loadCartItems(),
+                child: ListView(
                   children: [
-                    Builder(
-                      builder: (context) {
-                        var name = 'Total Amount';
-                        var value = getTotalCost(context)
-                            .toInt()
-                            .toString()
-                            .formattedAmount;
-                        return TitleandAmount(
-                          name: name,
-                          value: value,
-                        );
-                      },
+                    SizedBox(
+                      height: MediaQuery.sizeOf(context).height / 3,
                     ),
-                    const SizedBox(
-                      height: 26,
-                    ),
-                    PrimaryButton(
-                      onPressed: () async {
-                        showModalBottomSheet<OrderSummary?>(
-                          context: context,
-                          backgroundColor: Colors.transparent,
-                          isScrollControlled: true,
-                          builder: (BuildContext context) => SizedBox(
-                            width: MediaQuery.sizeOf(context).width - 48,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                bottom: MediaQuery.viewInsetsOf(context)
-                                        .bottom +
-                                    (MediaQuery.sizeOf(context).height / 20),
-                              ),
-                              child: ShoppingSummaryBottomSheet(
-                                widget: widget,
-                                allProductPrice: getTotalCost(context),
-                              ),
-                            ),
-                          ),
-                        ).then(
-                          (value) {
-                            if (value != null) {
-                              context.read<AppStateNotifier>().setPreOrder(
-                                    PreOrder(
-                                      subTotal: value.subTotal,
-                                      deliveryFee: value.deliveryFee,
-                                      discountAmount: value.discount,
-                                      totalAmount: value.totalAmount,
-                                      discountCode: value.discountCode,
-                                      items: context
-                                          .read<AppStateNotifier>()
-                                          .appState
-                                          .cartItems,
-                                      discountPercent: value.discountPercent,
-                                    ),
-                                  );
-                              widget.gotCheckOut();
-                            }
-                          },
-                        );
-                      },
-                      label: 'CHECK OUT',
-                    ),
+                    const Center(child: AppCircularProgressIndicator())
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 26,
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-            ],
-          ),
+              );
+            }
+            return Column(
+              children: [
+                Expanded(
+                  child: Builder(builder: (context) {
+                    final cartList = context.cartItems;
+                    if (cartList.isEmpty) {
+                      return Center(
+                        child: Text(
+                          'No Item in Cart',
+                          style: black24500,
+                        ),
+                      );
+                    }
+                    return RefreshIndicator(
+                      onRefresh: () async =>
+                          (context).read<AppStateNotifier>().loadCartItems(),
+                      child: ListView.builder(
+                        itemCount: cartList.length,
+                        itemBuilder: (context, index) {
+                          final data = cartList[index];
+                          var localAsset = data.product.imageUrl;
+                          final itemTitle = data.product.name;
+
+                          return CartItemWidget(
+                            asset: localAsset,
+                            quantity: '${data.quantity}',
+                            itemTitle: itemTitle,
+                            onAddToCart: () => (context)
+                                .read<AppStateNotifier>()
+                                .addToCart(data.product),
+                            onDeleteFromCart: () => (context)
+                                .read<AppStateNotifier>()
+                                .deleteFromCart(data.product),
+                            onRemoveFromCart: () => (context)
+                                .read<AppStateNotifier>()
+                                .removeFromCart(data.product),
+                            price: '${data.product.price}',
+                            description: data.product.description,
+                          );
+                        },
+                      ),
+                    );
+                  }),
+                ),
+                Visibility(
+                  visible: context.cartItems.isNotEmpty,
+                  child: Column(
+                    children: [
+                      Builder(
+                        builder: (context) {
+                          var name = 'Total Amount';
+                          var value = getTotalCost(context)
+                              .toInt()
+                              .toString()
+                              .formattedAmount;
+                          return TitleandAmount(
+                            name: name,
+                            value: value,
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 26,
+                      ),
+                      PrimaryButton(
+                        onPressed: () async {
+                          showModalBottomSheet<OrderSummary?>(
+                            context: context,
+                            backgroundColor: Colors.transparent,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) => SizedBox(
+                              width: MediaQuery.sizeOf(context).width - 48,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: MediaQuery.viewInsetsOf(context)
+                                          .bottom +
+                                      (MediaQuery.sizeOf(context).height / 20),
+                                ),
+                                child: ShoppingSummaryBottomSheet(
+                                  widget: widget,
+                                  allProductPrice: getTotalCost(context),
+                                ),
+                              ),
+                            ),
+                          ).then(
+                            (value) {
+                              if (value != null) {
+                                context.read<AppStateNotifier>().setPreOrder(
+                                      PreOrder(
+                                        subTotal: value.subTotal,
+                                        deliveryFee: value.deliveryFee,
+                                        discountAmount: value.discount,
+                                        totalAmount: value.totalAmount,
+                                        discountCode: value.discountCode,
+                                        items: context
+                                            .read<AppStateNotifier>()
+                                            .appState
+                                            .cartItems,
+                                        discountPercent: value.discountPercent,
+                                      ),
+                                    );
+                                widget.gotCheckOut();
+                              }
+                            },
+                          );
+                        },
+                        label: 'CHECK OUT',
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 26,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+              ],
+            );
+          }),
         ),
       ),
     );

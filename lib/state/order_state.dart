@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:shop_bag_app/data/model.dart/order_item.dart';
+import 'package:shop_bag_app/data/model/order_item/order_item.dart';
 
 class OrderState extends Equatable {
   final List<OrderItem> allOrders;

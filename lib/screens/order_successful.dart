@@ -50,10 +50,12 @@ class OrderSuccessfulScreen extends StatelessWidget {
               PrimaryButton(
                 label: 'CONTINUE SHOPPING',
                 onPressed: () {
-                  context.read<AppStateNotifier>().emptyCart();
-
-                  Navigator.of(context).popUntil(
-                    (route) => route.settings.name == checkout,
+                  context.read<AppStateNotifier>().emptyCart().then(
+                    (value) {
+                      Navigator.of(context).popUntil(
+                        (route) => route.settings.name == checkout,
+                      );
+                    },
                   );
                 },
               ),

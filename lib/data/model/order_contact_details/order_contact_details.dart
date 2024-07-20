@@ -1,12 +1,21 @@
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 
-import 'delivery_method.dart';
+import '../delivery_method/delivery_method.dart';
 
+part 'order_contact_details.g.dart';
+
+@HiveType(typeId: 7)
 class OrderContactDetails extends Equatable {
+  @HiveField(0)
   final DeliveryMethod deliveryMethod;
+  @HiveField(1)
   final String? pickupLocation;
+  @HiveField(2)
   final String? deliveryAddress;
+  @HiveField(3)
   final String phone1;
+  @HiveField(4)
   final String phone2;
 
   const OrderContactDetails({

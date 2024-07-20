@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:shop_bag_app/data/model.dart/card_details.dart';
+import 'package:shop_bag_app/data/model/card_details/card_details.dart';
 import 'package:shop_bag_app/screens/orders_history.dart';
 import 'package:shop_bag_app/screens/widgets/height8.dart';
 import 'package:shop_bag_app/screens/widgets/malltiverse_icon_widget.dart';

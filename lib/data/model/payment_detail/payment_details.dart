@@ -1,8 +1,14 @@
 import 'package:equatable/equatable.dart';
-import 'package:shop_bag_app/data/model.dart/card_details.dart';
+import 'package:hive/hive.dart';
+import 'package:shop_bag_app/data/model/card_details/card_details.dart';
 
+part 'payment_details.g.dart';
+
+@HiveType(typeId: 5)
 class PaymentDetails extends Equatable {
+  @HiveField(0)
   final String type;
+  @HiveField(1)
   final Object detail; // detail can be of any type, typically CardDetails
 
   const PaymentDetails({

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_bag_app/data/model.dart/card_details.dart';
-import 'package:shop_bag_app/data/model.dart/payment_details.dart';
+import 'package:shop_bag_app/data/model/card_details/card_details.dart';
+import 'package:shop_bag_app/data/model/payment_detail/payment_details.dart';
 import 'package:shop_bag_app/screens/order_detail.dart';
 import 'package:shop_bag_app/screens/payment_flow.dart';
 import 'package:shop_bag_app/screens/widgets/height4.dart';

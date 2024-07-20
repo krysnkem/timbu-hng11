@@ -1,13 +1,25 @@
 import 'package:equatable/equatable.dart';
-import 'cart_item.dart';
+import 'package:hive/hive.dart';
 
+import '../cart_item/cart_item.dart';
+
+part 'pre_order.g.dart';
+
+@HiveType(typeId: 3)
 class PreOrder extends Equatable {
+  @HiveField(0)
   final int subTotal;
+  @HiveField(1)
   final int deliveryFee;
+  @HiveField(2)
   final int discountAmount;
+  @HiveField(3)
   final int discountPercent;
+  @HiveField(4)
   final int totalAmount;
+  @HiveField(5)
   final String discountCode;
+  @HiveField(6)
   final List<CartItem> items;
 
   const PreOrder({
