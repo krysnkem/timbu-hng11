@@ -29,6 +29,7 @@ class OrderDetailPage extends StatelessWidget {
                 ),
               ),
               const Height8(),
+              const Height8(),
               detailRow('Order Reference:', order.orderRef),
               detailRow('Date:',
                   '${DateFormat.yMMMd().format(order.date)} ${DateFormat.jm().format(order.date)}'),
@@ -38,7 +39,7 @@ class OrderDetailPage extends StatelessWidget {
               detailRow('Discount Percent:', '${order.discountPercent}%'),
               detailRow('Total Amount:', '$currency${order.totalAmount}'),
               detailRow('Discount Code:', order.discountCode),
-              const SizedBox(height: 16),
+              const SizedBox(height: 32),
               Text('Items:', style: black14600),
               ...order.items.map(
                 (item) => ListTile(
@@ -51,7 +52,7 @@ class OrderDetailPage extends StatelessWidget {
                       'Cost: $currency ${(item.quantity * item.product.price).toInt().toString().formattedAmount}'),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 32),
               Text('Contact Details:', style: black14600),
               detailRow('Phone 1:', order.contactDetails.phone1),
               detailRow('Phone 2:', order.contactDetails.phone2),
@@ -64,9 +65,12 @@ class OrderDetailPage extends StatelessWidget {
                   isExpanded: false,
                 ),
               if (order.contactDetails.deliveryAddress != null)
-                Text(
-                    'Delivery Address: ${order.contactDetails.deliveryAddress}'),
-              const SizedBox(height: 16),
+                detailRow(
+                  'Delivery Address:',
+                  '${order.contactDetails.deliveryAddress}',
+                  isExpanded: false,
+                ),
+              const SizedBox(height: 32),
               Builder(builder: (context) {
                 final paymentDetails = order.paymentDetails.type == 'card'
                     ? order.paymentDetails.detail as CardDetails
@@ -97,7 +101,7 @@ class OrderDetailPage extends StatelessWidget {
 
   Widget detailRow(String label, String value, {bool isExpanded = true}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,

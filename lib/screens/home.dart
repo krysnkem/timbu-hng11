@@ -45,6 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         precacheImage(const AssetImage('assets/images/Card.png'), context);
+        precacheImage(
+          const AssetImage('assets/images/Big Image Card (1).png'),
+          context,
+        );
       },
     );
   }
