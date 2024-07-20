@@ -79,7 +79,7 @@ class ProductWidget extends StatelessWidget {
                   ),
                   const Height8(),
                   Text(
-                    'N $price',
+                    '₦ $price',
                     style: accent13500,
                   ),
                 ],

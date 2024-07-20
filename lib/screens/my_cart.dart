@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_bag_app/data/model.dart/pre_order.dart';
-import 'package:shop_bag_app/screens/widgets/malltiverse_top_bar_icon.dart';
+import 'package:shop_bag_app/screens/widgets/malltiverse_icon_widget.dart';
 import 'package:shop_bag_app/state/app_state_notifier.dart';
 import 'package:shop_bag_app/utils/colors.dart';
 import 'package:shop_bag_app/utils/extensions.dart';
@@ -38,7 +38,7 @@ class _MyCartState extends State<MyCart> with AutomaticKeepAliveClientMixin {
           'My Cart',
           style: black19600,
         ),
-        leading: const MalltiverseTopBarIcon(),
+        leading: const MalltiverseIconWidget(),
       ),
       body: ColoredBox(
         color: mainWhite,

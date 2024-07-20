@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:shop_bag_app/screens/favourites.dart';
+import 'package:shop_bag_app/screens/order_detail.dart';
 import 'package:shop_bag_app/screens/orders_history.dart';
 import 'package:shop_bag_app/screens/products_listing.dart';
 
@@ -43,7 +44,7 @@ class _HomeFlowState extends State<HomeFlow>
   bool get wantKeepAlive => true;
 }
 
-final nestedRouteBuiilders = {
+final nestedRouteBuiilders = <String, WidgetBuilder>{
   productListing: (
     BuildContext context,
   ) =>
@@ -53,8 +54,10 @@ final nestedRouteBuiilders = {
   ) =>
       const OrdersHistory(),
   wishListOrFavourites: (context) => const Favourites(),
+  orderDetail: (context) => const OrderDetailPage(),
 };
 
 const productListing = 'home/product-listing';
 const ordersHistory = 'home/orders-history';
+const orderDetail = 'home/orders-detail';
 const wishListOrFavourites = 'home/wishlist-or-favourites';

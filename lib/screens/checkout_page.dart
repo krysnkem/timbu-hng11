@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shop_bag_app/data/model.dart/delivery_method.dart';
 import 'package:shop_bag_app/data/model.dart/order_contact_details.dart';
 import 'package:shop_bag_app/screens/payment_flow.dart';
-import 'package:shop_bag_app/screens/widgets/malltiverse_top_bar_icon.dart';
+import 'package:shop_bag_app/screens/widgets/malltiverse_icon_widget.dart';
 import 'package:shop_bag_app/screens/widgets/primary_button.dart';
 import 'package:shop_bag_app/state/app_state_notifier.dart';
 import 'package:shop_bag_app/utils/colors.dart';
@@ -115,7 +115,7 @@ class _CheckoutPageState extends State<CheckoutPage>
           'Checkout',
           style: black19600,
         ),
-        leading: const MalltiverseTopBarIcon(),
+        leading: const MalltiverseIconWidget(),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -324,6 +324,4 @@ class _CheckoutPageState extends State<CheckoutPage>
       ),
     );
   }
-
-  
 }

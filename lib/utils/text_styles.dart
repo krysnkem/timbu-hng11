@@ -34,11 +34,6 @@ const black18400 = TextStyle(
   color: mainBlack,
 );
 
-const grey16400 = TextStyle(
-  fontSize: 16,
-  fontWeight: FontWeight.w400,
-  color: textGrey,
-);
 const white16300 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w300,
@@ -113,6 +108,16 @@ final black14500 = GoogleFonts.montserrat(
   fontWeight: FontWeight.w500,
   color: mainBlack,
 );
+final black14600 = GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w600,
+  color: mainBlack,
+);
+final black14400 = GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  color: mainBlack,
+);
 
 final black24500 = GoogleFonts.montserrat(
   fontSize: 24,
@@ -151,4 +156,15 @@ final black16400 = GoogleFonts.montserrat(
   fontSize: 16,
   fontWeight: FontWeight.w300,
   color: mainBlack,
+);
+
+final grey16400 = GoogleFonts.montserrat(
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+  color: textGrey,
+);
+final grey14500 = GoogleFonts.montserrat(
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+  color: textGrey,
 );

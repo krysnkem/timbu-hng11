@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_bag_app/data/model.dart/card_details.dart';
 import 'package:shop_bag_app/data/model.dart/payment_details.dart';
+import 'package:shop_bag_app/screens/order_detail.dart';
 import 'package:shop_bag_app/screens/payment_flow.dart';
 import 'package:shop_bag_app/screens/widgets/height4.dart';
 import 'package:shop_bag_app/screens/widgets/height8.dart';
@@ -94,21 +95,17 @@ class _PaymentPageState extends State<PaymentPage> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Payment',
-            style: black19600,
-          ),
-          backgroundColor: Colors.white,
+        appBar: const StandardAppBar(
+          title: 'Payment',
         ),
-        body: Padding(
-          padding: const EdgeInsets.only(
-            left: 24.0,
-            right: 24.0,
-          ),
-          child: Stack(
-            children: [
-              SingleChildScrollView(
+        body: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 24.0,
+                right: 24.0,
+              ),
+              child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -360,23 +357,23 @@ class _PaymentPageState extends State<PaymentPage> {
                   ],
                 ),
               ),
-              Builder(
-                builder: (context) {
-                  return Visibility(
-                    visible: context.orderProcessing,
-                    child: Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      color: backgroundGrey.withOpacity(0.5),
-                      child: const Center(
-                        child: AppCircularProgressIndicator(),
-                      ),
+            ),
+            Builder(
+              builder: (context) {
+                return Visibility(
+                  visible: context.orderProcessing,
+                  child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    color: backgroundGrey.withOpacity(0.5),
+                    child: const Center(
+                      child: AppCircularProgressIndicator(),
                     ),
-                  );
-                },
-              )
-            ],
-          ),
+                  ),
+                );
+              },
+            )
+          ],
         ),
       ),
     );

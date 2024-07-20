@@ -20,6 +20,9 @@ class OrderSuccessfulScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              const SizedBox(
+                height: 30,
+              ),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -42,7 +45,7 @@ class OrderSuccessfulScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: MediaQuery.sizeOf(context).height / 3,
+                height: MediaQuery.sizeOf(context).height / 4,
               ),
               PrimaryButton(
                 label: 'CONTINUE SHOPPING',
