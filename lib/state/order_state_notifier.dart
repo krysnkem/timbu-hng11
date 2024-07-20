@@ -1,6 +1,8 @@
+import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:shop_bag_app/data/db/orders_db_client.dart';
 import 'package:shop_bag_app/data/model/cart_item/cart_item.dart';
 import 'package:shop_bag_app/data/model/order_contact_details/order_contact_details.dart';
 import 'package:shop_bag_app/data/model/order_item/order_item.dart';
@@ -10,6 +12,9 @@ import 'package:shop_bag_app/data/model/pre_order/pre_order.dart';
 import 'order_state.dart';
 
 class OrderStateNotifier extends ChangeNotifier {
+  OrderStateNotifier() {
+    loadAllOrders();
+  }
   OrderState _orderState = const OrderState();
 
   OrderState get orderState => _orderState;
@@ -35,6 +40,15 @@ class OrderStateNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void loadAllOrders() async {
+    setGettingOrders();
+    final orders = await OrdersDbClient.getAllOrders();
+    if (orders.isNotEmpty) {
+      setAllOrders(orders);
+    }
+    clearGettingOrders();
+  }
+
   void setAllOrders(List<OrderItem> orders) {
     _orderState = _orderState.copyWith(allOrders: orders);
     notifyListeners();
@@ -44,6 +58,12 @@ class OrderStateNotifier extends ChangeNotifier {
     final newOrders = List<OrderItem>.from(_orderState.allOrders);
     newOrders.add(order);
     _orderState = _orderState.copyWith(allOrders: newOrders);
+    OrdersDbClient.addOrder(order).then(
+      (value) {
+        _logDbOrders();
+      },
+    );
+
     notifyListeners();
   }
 
@@ -51,11 +71,23 @@ class OrderStateNotifier extends ChangeNotifier {
     final newOrders =
         _orderState.allOrders.where((order) => order.id != orderId).toList();
     _orderState = _orderState.copyWith(allOrders: newOrders);
+    OrdersDbClient.deleteOrder(orderId).then(
+      (value) {
+        _logDbOrders();
+      },
+    );
+
     notifyListeners();
   }
 
   void clearOrders() {
     _orderState = _orderState.copyWith(allOrders: []);
+    OrdersDbClient.deleteAll().then(
+      (value) {
+        _logDbOrders();
+      },
+    );
+
     notifyListeners();
   }
 
@@ -99,5 +131,10 @@ class OrderStateNotifier extends ChangeNotifier {
         .padLeft(4, '0'); // Generates a 4-digit random number
 
     return 'ORD-$timestamp-$randomSuffix';
+  }
+
+  void _logDbOrders() async {
+    final itemsInDb = await OrdersDbClient.getAllOrders();
+    dev.log('###Order ITEMS IN DB ### $itemsInDb');
   }
 }
